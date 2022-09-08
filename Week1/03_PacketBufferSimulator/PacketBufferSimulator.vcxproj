@@ -23,7 +23,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{795e143c-095f-4eef-939d-3f3ef3dc3364}</ProjectGuid>
-    <RootNamespace>PacketBufferSimulator</RootNamespace>
+    <RootNamespace>03_PacketBufferSimulator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

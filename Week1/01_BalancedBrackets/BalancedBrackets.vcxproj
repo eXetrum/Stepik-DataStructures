@@ -23,7 +23,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5f6431d7-8c29-43d9-939e-1fab6e1d0ace}</ProjectGuid>
-    <RootNamespace>BalancedBrackets</RootNamespace>
+    <RootNamespace>01_BalancedBrackets</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
