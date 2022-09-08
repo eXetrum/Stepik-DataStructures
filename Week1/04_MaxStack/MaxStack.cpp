@@ -4,7 +4,7 @@
 using namespace std;
 
 template <class Type=int>
-class MaxStack {
+class max_stack_t {
 	stack<Type> values;
 	stack<Type> cur_max;
 public:
@@ -27,7 +27,7 @@ public:
 int main() {
 	string cmd;
 	int n;
-	MaxStack<> st;
+	max_stack_t<> st;
 	
 	cin >> n;
 	for (int i = 0; i < n; ++i) {
