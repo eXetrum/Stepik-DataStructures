@@ -3,7 +3,7 @@
 #include <stack>
 using namespace std;
 
-template <class Type=int> 
+template <class Type=int>
 class max_stack_t {
 	stack<Type> values;
 	stack<Type> cur_max;
