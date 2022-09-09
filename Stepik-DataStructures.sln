@@ -19,7 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Week", "02_Week", "{042B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{79F6A750-DCBD-43C6-934A-F69013FA10E6}"
 	ProjectSection(SolutionItems) = preProject
-		array_stack.hpp = array_stack.hpp
+		include\max_stack.hpp = include\max_stack.hpp
+		include\stack.hpp = include\stack.hpp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildHeap", "02_Week\01_BuildHeap\BuildHeap.vcxproj", "{C8EB8DB2-D5C7-4A9A-970A-A13699A89859}"
