@@ -5,7 +5,7 @@
 using namespace std;
 
 template <class Type = int>
-class max_stack_t {
+class max_stack {
 	stack<Type> values;
 	stack<Type> cur_max;
 public:
@@ -35,7 +35,7 @@ public:
 		cur_max.pop();
 	}
 
-	int size() const { return values.size(); }
+	size_t size() const { return values.size(); }
 
 	void dump() const {
 		int n = values.size();
@@ -50,15 +50,15 @@ public:
 };
 
 template <class Type=int>
-class max_queue_t {
+class max_queue {
 	int win_size;
-	max_stack_t<Type> in;
-	max_stack_t<Type> out;
+	max_stack<Type> in;
+	max_stack<Type> out;
 public:
-	max_queue_t(int win_size)
+	max_queue(int win_size)
 		: win_size(win_size) { }
 
-	int size() const { return in.size() + out.size(); }
+	size_t size() const { return in.size() + out.size(); }
 
 	void push(const Type& item) {
 		
@@ -99,9 +99,9 @@ public:
 		cout << "-----------" << endl;
 	}
 };
+
 int main() {
 	int n, m, max_idx = 0;
-	max_stack_t<> in, out;
 	queue<int> q;
 
 	cin >> n;
@@ -111,7 +111,7 @@ int main() {
 		q.push(value);
 	}
 	cin >> m;
-	max_queue_t<> qm(m);
+	max_queue<int> qm(m);
 	while (!q.empty()) {
 		qm.push(q.front());
 		q.pop();
