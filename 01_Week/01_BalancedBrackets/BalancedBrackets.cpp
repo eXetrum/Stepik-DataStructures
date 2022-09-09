@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stack>
 #include <string>
-#include <algorithm>
 using namespace std;
 
 int is_balanced(const string& s) {

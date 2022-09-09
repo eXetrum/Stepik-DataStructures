@@ -17,7 +17,7 @@ int height(const vector<int>& tree) {
     int height = 0;
 
     for (int v = 0; v < tree.size(); ++v) {
-        height = cur_max(height, climb_up(cache, tree, v));
+        height = max(height, climb_up(cache, tree, v));
     }
     return height;
 }

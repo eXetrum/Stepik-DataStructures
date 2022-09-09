@@ -5,24 +5,24 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Week", "01_Week", "{C30D12A6-89D3-4963-BC36-9960BAB21C31}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_BalancedBrackets", "Week1\01_BalancedBrackets\BalancedBrackets.vcxproj", "{5F6431D7-8C29-43D9-939E-1FAB6E1D0ACE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_BalancedBrackets", "01_Week\01_BalancedBrackets\BalancedBrackets.vcxproj", "{5F6431D7-8C29-43D9-939E-1FAB6E1D0ACE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_TreeHeight", "Week1\02_TreeHeight\TreeHeight.vcxproj", "{06BBCDC2-D001-40D9-A9E0-549F469E9BE3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_TreeHeight", "01_Week\02_TreeHeight\TreeHeight.vcxproj", "{06BBCDC2-D001-40D9-A9E0-549F469E9BE3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_PacketBufferSimulator", "Week1\03_PacketBufferSimulator\PacketBufferSimulator.vcxproj", "{795E143C-095F-4EEF-939D-3F3EF3DC3364}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_PacketBufferSimulator", "01_Week\03_PacketBufferSimulator\PacketBufferSimulator.vcxproj", "{795E143C-095F-4EEF-939D-3F3EF3DC3364}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_MaxStack", "Week1\04_MaxStack\04_MaxStack.vcxproj", "{898C9B62-F189-449E-8742-172B7DD21F98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_MaxStack", "01_Week\04_MaxStack\04_MaxStack.vcxproj", "{898C9B62-F189-449E-8742-172B7DD21F98}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_MaxInSlideWindow", "Week1\05_MaxInSlideWindow\05_MaxInSlideWindow.vcxproj", "{AA70EE4F-4A5A-400B-BB71-A83CFF5DDC67}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_MaxInSlideWindow", "01_Week\05_MaxInSlideWindow\05_MaxInSlideWindow.vcxproj", "{AA70EE4F-4A5A-400B-BB71-A83CFF5DDC67}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Week", "02_Week", "{042B7766-E62B-4758-8FD1-63C39D231F89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{79F6A750-DCBD-43C6-934A-F69013FA10E6}"
 	ProjectSection(SolutionItems) = preProject
-		stack.hpp = stack.hpp
+		array_stack.hpp = array_stack.hpp
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildHeap", "02_Week\BuildHeap\BuildHeap.vcxproj", "{C8EB8DB2-D5C7-4A9A-970A-A13699A89859}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildHeap", "02_Week\01_BuildHeap\BuildHeap.vcxproj", "{C8EB8DB2-D5C7-4A9A-970A-A13699A89859}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
