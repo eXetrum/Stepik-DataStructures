@@ -20,7 +20,7 @@ private:
 		if (m_capacity == 0) {
 			m_capacity = 1;
 			data = new Type[m_capacity];
-		} else if(m_size + 1 == m_capacity) {
+		} else if(m_size + 1 >= m_capacity) {
 			m_capacity *= MULT_FACTOR;
 			Type* old_data = data;
 			data = new Type[m_capacity];
