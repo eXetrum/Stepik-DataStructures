@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <stack>
 using namespace std;
 #include "..\..\include\max_stack.hpp"
 
