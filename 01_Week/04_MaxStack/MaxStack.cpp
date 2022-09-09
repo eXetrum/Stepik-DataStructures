@@ -4,27 +4,6 @@
 using namespace std;
 #include "..\..\include\max_stack.hpp"
 
-//template <class Type=int>
-//class max_stack_t {
-//	stack<Type> values;
-//	stack<Type> cur_max;
-//public:
-//	void push(const Type& item) {
-//		values.push(item);
-//		if (cur_max.empty() || item > cur_max.top())
-//			cur_max.push(item);
-//		else
-//			cur_max.push(cur_max.top());
-//	}
-//	
-//	Type max() const { return cur_max.top(); }
-//	
-//	void pop() {
-//		values.pop();
-//		cur_max.pop();
-//	}
-//};
-
 int main() {
 	string cmd;
 	int n;
