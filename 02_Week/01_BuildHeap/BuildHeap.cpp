@@ -35,7 +35,7 @@ private:
     }
 
     void build_heap(vector<Type>& A) {
-        int n = A.size();
+        int n = (int)A.size();
 
         for (int i = n / 2 - 1; i >= 0; --i) {
             sift_down(A, i);
