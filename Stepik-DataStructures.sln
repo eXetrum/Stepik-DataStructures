@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Week1", "Week1", "{C30D12A6-89D3-4963-BC36-9960BAB21C31}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Week", "01_Week", "{C30D12A6-89D3-4963-BC36-9960BAB21C31}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_BalancedBrackets", "Week1\01_BalancedBrackets\BalancedBrackets.vcxproj", "{5F6431D7-8C29-43D9-939E-1FAB6E1D0ACE}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_MaxStack", "Week1\04_MaxStack\04_MaxStack.vcxproj", "{898C9B62-F189-449E-8742-172B7DD21F98}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_MaxInSlideWindow", "Week1\05_MaxInSlideWindow\05_MaxInSlideWindow.vcxproj", "{AA70EE4F-4A5A-400B-BB71-A83CFF5DDC67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Week", "02_Week", "{042B7766-E62B-4758-8FD1-63C39D231F89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
