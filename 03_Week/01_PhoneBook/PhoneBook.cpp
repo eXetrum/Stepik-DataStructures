@@ -14,7 +14,7 @@ int main() {
         cin >> cmd;
         if (cmd == "add") {
             cin >> key >> value;
-            db.insert(key, value);
+            db[key] = value;
         } else if(cmd == "find") {
             cin >> key;
             if (db.contains(key)) { cout << db[key] << endl; }
