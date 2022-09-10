@@ -151,15 +151,20 @@ public:
 		size_t idx = get_hash(key);
 
 		if (can_insert_at(idx)) {
-			++m_size;
 			put_item(idx, key, value_t());
+			++m_size;
 		}
 
 		return m_bucket[idx].value;
 	}
 
 	void insert(const key_t& key, const value_t& value) {
-		// TODO
+		ensure_capacity();
+		size_t idx = get_hash(key);
+		if (can_insert_at(idx)) {
+			put_item(idx, key, value);
+			++m_size;
+		}
 	}
 
 	void remove(const key_t& key) {
