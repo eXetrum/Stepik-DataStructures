@@ -133,7 +133,10 @@ public:
 
 	map& operator=(const map& rhs) {
 		if (this != &rhs) {
-			// TODO
+			map temp(rhs);
+			swap(m_size, temp.m_size);
+			swap(m_capacity, temp.m_capacity);
+			swap(m_bucket, temp.m_bucket);
 		}
 		return *this;
 	}
