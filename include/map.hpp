@@ -66,11 +66,9 @@ private:
 		return h(key) % m_capacity;
 	}
 
-	void rehash() {
-		// TODO
-	}
-
-	bool can_insert_at(size_t idx) const { return m_bucket[idx].status == bucket_status::EMPTY || m_bucket[idx].status == bucket_status::DELETED; }
+	inline bool is_free_slot(size_t idx) const { return m_bucket[idx].status == bucket_status::EMPTY || m_bucket[idx].status == bucket_status::DELETED; }
+	inline bool is_bussy(size_t idx) const { return m_bucket[idx].status == bucket_status::BUSSY; }
+	inline bool is_deleted(size_t idx) const { return m_bucket[idx].status == bucket_status::DELETED; }
 	
 	void put_item(size_t idx, const key_t& key, const value_t& value) {
 		m_bucket[idx].key = key;
@@ -78,18 +76,35 @@ private:
 		m_bucket[idx].status = bucket_status::BUSSY;
 	}
 
-	void resolve_collision(size_t idx, const key_t& key, const value_t& value) {
+	void resolve_collision_insert(size_t idx, const key_t& key, const value_t& value) {
 		bool saved = false;
 		size_t n = 0;
 		while (n < m_capacity && !saved) {
 			idx = (idx + 1) % m_capacity;
-			if (can_insert_at(idx)) {
+			if (is_free_slot(idx)) {
 				put_item(idx, key, value);
 				saved = true;
 			}
 			++n;
 		}
 		if (saved == false) throw std::runtime_error("[resolve_collision] failed");
+	}
+
+	bool resolve_collision_find(size_t idx, const key_t& key, value_t& value) {
+		size_t n = 0;
+		while (n < m_capacity && !saved) {
+			idx = (idx + 1) % m_capacity;
+			// End of chaining
+			if (is_free_slot(idx)) return false;
+
+			if (is_bussy(idx) && m_bucket[idx].key == key) {
+				value = m_bucket[idx].value;
+				return true;
+			}
+
+			++n;
+		}
+		return false;
 	}
 
 	void ensure_capacity() {
@@ -106,11 +121,10 @@ private:
 			// Rehash			
 			for (size_t i = 0; i < m_old_capacity; ++i) {
 				size_t idx = get_hash(m_old_bucket[i].key);
-
-				if (can_insert_at(idx)) {
+				if (is_free_slot(idx)) {
 					put_item(idx, m_old_bucket[i].key, m_old_bucket[i].value);
 				} else { // Linear probe
-					resolve_collision(idx, m_old_bucket[i].key, m_old_bucket[i].value)
+					resolve_collision_insert(idx, m_old_bucket[i].key, m_old_bucket[i].value)
 				}
 			}
 
@@ -172,10 +186,10 @@ public:
 	void insert(const key_t& key, const value_t& value) {
 		ensure_capacity();
 		size_t idx = get_hash(key);
-		if (can_insert_at(idx)) {
+		if (is_free_slot(idx)) {
 			put_item(idx, key, value);
 		} else {
-			resolve_collision(idx, key, value);
+			resolve_collision_insert(idx, key, value);
 		}
 		++m_size;
 	}
@@ -189,8 +203,12 @@ public:
 	}
 
 	bool contains(const key_t& key) const {
-		// TODO
-		return false;
+		size_t idx = get_hash(key);
+		if (m_bucket[idx].status == bucket_status::EMPTY)
+			return false;
+		
+		value_t dummy;
+		return resolve_collision_find(idx, key, dummy);
 	}
 
 	void dump() const {
