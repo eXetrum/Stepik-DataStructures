@@ -78,6 +78,20 @@ private:
 		m_bucket[idx].status = bucket_status::BUSSY;
 	}
 
+	void resolve_collision(size_t idx, const key_t& key, const value_t& value) {
+		bool saved = false;
+		size_t n = 0;
+		while (n < m_capacity && !saved) {
+			idx = (idx + 1) % m_capacity;
+			if (can_insert_at(idx)) {
+				put_item(idx, key, value);
+				saved = true;
+			}
+			++n;
+		}
+		if (saved == false) throw std::runtime_error("[resolve_collision] failed");
+	}
+
 	void ensure_capacity() {
 		const double MAX_LOAD_FACTOR = 0.75;
 		double load_factor = m_size / (double)m_capacity;
@@ -96,17 +110,7 @@ private:
 				if (can_insert_at(idx)) {
 					put_item(idx, m_old_bucket[i].key, m_old_bucket[i].value);
 				} else { // Linear probe
-					bool saved = false;
-					size_t n = 0;
-					while (n < m_capacity && !saved) {
-						idx = (idx + 1) % m_capacity;
-						if (can_insert_at(idx)) {
-							put_item(idx, m_old_bucket[i].key, m_old_bucket[i].value);
-							saved = true;
-						}
-						++n;
-					}
-					if (saved == false) throw std::runtime_error("[ensure_capacity] rehash procedure failed");
+					resolve_collision(idx, m_old_bucket[i].key, m_old_bucket[i].value)
 				}
 			}
 
@@ -171,17 +175,7 @@ public:
 		if (can_insert_at(idx)) {
 			put_item(idx, key, value);
 		} else {
-			bool saved = false;
-			size_t n = 0;
-			while (n < m_capacity && !saved) {
-				idx = (idx + 1) % m_capacity;
-				if (can_insert_at(idx)) {
-					put_item(idx, m_bucket[i].key, m_bucket[i].value);
-					saved = true;
-				}
-				++n;
-			}
-			if (saved == false) throw std::runtime_error("[insert] linear probe failed");
+			resolve_collision(idx, key, value);
 		}
 		++m_size;
 	}
