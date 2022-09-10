@@ -163,8 +163,20 @@ public:
 		size_t idx = get_hash(key);
 		if (can_insert_at(idx)) {
 			put_item(idx, key, value);
-			++m_size;
+		} else {
+			bool saved = false;
+			size_t n = 0;
+			while (n < m_capacity && !saved) {
+				idx = (idx + 1) % m_capacity;
+				if (can_insert_at(idx)) {
+					put_item(idx, m_bucket[i].key, m_bucket[i].value);
+					saved = true;
+				}
+				++n;
+			}
+			if (saved == false) throw std::runtime_error("[insert] linear probe failed");
 		}
+		++m_size;
 	}
 
 	void remove(const key_t& key) {
