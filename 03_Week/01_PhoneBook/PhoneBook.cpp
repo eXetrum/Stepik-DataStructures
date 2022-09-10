@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-//#include <map>
-#include "../../include/map.hpp"
+#include <map>
 using namespace std;
 
 int main() {
@@ -17,13 +16,13 @@ int main() {
             db[key] = value;
         } else if(cmd == "find") {
             cin >> key;
-            if (db.contains(key)) { cout << db[key] << endl; }
+            if (db.find(key) != db.end()) { cout << db[key] << endl; }
             else { cout << "not found" << endl; }
         } else if(cmd == "del") {
             cin >> key;
             db.remove(key);
         }
-        cout << db.size() << endl;
+        //db.dump();
     }
     return 0;
 }
