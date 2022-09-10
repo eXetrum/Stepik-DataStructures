@@ -72,7 +72,6 @@ public:
 
 int main() {
     long n, m, r;
-    vector<long> R;
     cin >> n >> m;
     disjoint_set S(n);
 
