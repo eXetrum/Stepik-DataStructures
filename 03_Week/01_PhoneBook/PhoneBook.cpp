@@ -20,7 +20,7 @@ int main() {
             else { cout << "not found" << endl; }
         } else if(cmd == "del") {
             cin >> key;
-            db.remove(key);
+            db.erase(key);
         }
         //db.dump();
     }
