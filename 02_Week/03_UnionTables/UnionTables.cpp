@@ -15,7 +15,7 @@ public:
         : max_table_len(0) {
         parent.resize(max_value + 1); 
         rank.resize(max_value + 1);
-        for (int i = 1; i <= max_value; ++i) {
+        for (long i = 1; i <= max_value; ++i) {
             make_set(i, 0);
         }
     }
@@ -40,7 +40,7 @@ public:
 
     int get_max() const { return max_table_len; }
 
-    void union_set(int i, int j) {
+    void union_set(long i, long j) {
         pair<long, long> i_id = find(i);
         pair<long, long> j_id = find(j);
         
@@ -63,7 +63,7 @@ public:
 
     }
     void dump() {
-        for (int i = 0; i < parent.size(); ++i) {
+        for (long i = 0; i < parent.size(); ++i) {
             cout << parent[i].first << " " << parent[i].second << endl;
         }
         cout << "-------" << endl;
