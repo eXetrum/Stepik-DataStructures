@@ -1,5 +1,5 @@
-#ifndef __PRIORITY__QUEUE__H__
-#define __PRIORITY__QUEUE__H__
+#ifndef __PRIORITY__QUEUE__HPP__
+#define __PRIORITY__QUEUE__HPP__
 
 #include <iterator>
 #include <stdexcept>
@@ -13,16 +13,37 @@ protected:
     Type* m_data;
     comparator cmp;
 private:
-    PriorityQueue(const PriorityQueue&) = delete;
-    PriorityQueue& operator=(const PriorityQueue&) = delete;
+    void swap(Type& a, Type& b) {
+        Type temp = a;
+        a = b;
+        b = temp;
+    }
 public:
-    PriorityQueue()
+    priority_queue()
         : m_size(0), m_capacity(DEFAULT_CAPACITY) {
 
         m_data = new Type[m_capacity];
     }
 
-    ~PriorityQueue() { delete[] m_data; }
+    priority_queue(const priority_queue& pq)
+        : m_size(pq.m_size), m_capacity(pq.m_capacity) {
+        m_data = new Type[m_capacity];
+        for (int i = 0; i < m_size; ++i) { m_data[i] = pq.m_data[i]; }
+    }
+
+    priority_queue& operator=(const priority_queue& rhs) {
+        if (this != &rhs) {
+            priority_queue temp(rhs);
+            swap(m_size, temp.m_size);
+            swap(m_capacity, temp.m_capacity);
+            swap(m_data, temp.m_data);
+            cmp = rhs.cmp;
+        }
+
+        return *this;
+    }
+
+    ~priority_queue() { delete[] m_data; }
 
     // Public interface
     bool is_empty() const { return m_size == 0; }
@@ -107,4 +128,4 @@ private:
 
 };
 
-#endif // !__PRIORITY__QUEUE__H__
+#endif // !__PRIORITY__QUEUE__HPP__
