@@ -121,8 +121,12 @@ public:
 		m_bucket = new bucket_t[m_capacity];
 	}
 
-	map(const map& other) {
-		// TODO
+	map(const map& other)
+		: m_size(other.m_size), m_capacity(other.m_capacity), m_bucket(nullptr) {
+		m_bucket = new bucket_t[m_capacity];
+		for (size_t i = 0; i < m_capacity; ++i) {
+			m_bucket[i] = other.m_bucket[i];
+		}
 	}
 
 	~map() { clear(); }
