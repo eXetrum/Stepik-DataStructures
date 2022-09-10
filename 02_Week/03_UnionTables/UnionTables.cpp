@@ -1,50 +1,79 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class disjoint_set {
 protected:
-    vector<int> parent;
-    vector<int> rank;
+    vector<pair<long, long>> parent;
+    vector<long> rank;
+    long max_table_len;
 private:
-    void make_set(int i) {
-        parent[i] = i;
-        rank[i] = 0;
-    }
+    
 public:
-    disjoint_set(int max_value) { 
+    disjoint_set(long max_value) {
         parent.resize(max_value + 1); 
         rank.resize(max_value + 1);
         for (int i = 0; i < max_value; ++i) {
-            make_set(i);
+            make_set(i, 0);
         }
+    }
+    
+    void make_set(long i, long size) {
+        parent[i].first = i;
+        parent[i].second = size;
+        rank[i] = 0;
+        
+        max_table_len = max(max_table_len, size);
     }
 
-    int find(int i) const {
-        while (i != parent[i]) {
-            i = parent[i];
-        }
-        return i;
+    pair<long, long> find(long i) {
+        // Path compression
+        if (i != parent[i].first)
+            parent[i] = find(parent[i].first);
+        return parent[i];
     }
+
+    int get_max() const { return max_table_len; }
 
     void union_set(int i, int j) {
-        int i_id = find(i);
-        int j_id = find(j);
+        pair<long, long> i_id = find(i);
+        pair<long, long> j_id = find(j);
         
-        if (i_id == j_id) return;
+        if (i_id.first == j_id.first) return;
 
-        if (rank[i_id] > rank[j_id]) {
-            parent[j_id] = i_id;
+        if (rank[i_id.first] > rank[j_id.first]) {
+            parent[j_id.first].first = i_id.first;
+            parent[j_id.first].second += i_id.second;
+            max_table_len = max(max_table_len, parent[j_id.first].second);
         } else {
-            parent[i_id] = j_id;
-            if (rank[i_id] == rank[j_id]) { ++rank[j_id]; }
+            parent[i_id.first].first = j_id.first;
+            parent[i_id.first].second += j_id.second;
+            max_table_len = max(max_table_len, parent[i_id.first].second);
+            if (rank[i_id.first] == rank[j_id.first]) { ++rank[j_id.first]; }
         }
 
     }
 };
 
 int main() {
-    int n, m;
+    long n, m, r;
+    vector<long> R;
+    cin >> n >> m;
+    disjoint_set S(n);
+
+    for (long i = 0; i < n; ++i) {
+        cin >> r;
+        S.make_set(i, r);
+    }
+
+    for (long i = 0; i < m; ++i) {
+        long dst, src;
+        cin >> dst >> src;
+        S.union_set(dst, src);
+        cout << S.get_max() << endl;
+    }
+
 
     return 0;
 }
