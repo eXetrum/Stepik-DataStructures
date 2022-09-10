@@ -76,7 +76,7 @@ private:
 		m_bucket[idx].status = bucket_status::BUSSY;
 	}
 
-	void resolve_collision_insert(size_t idx, const key_t& key, const value_t& value) {
+	void resolve_collision_insert(size_t& idx, const key_t& key, const value_t& value) {
 		bool saved = false;
 		size_t n = 0;
 		while (n < m_capacity && !saved) {
@@ -90,7 +90,7 @@ private:
 		if (saved == false) throw std::runtime_error("[resolve_collision] failed");
 	}
 
-	bool resolve_collision_find(size_t idx, const key_t& key, value_t& value) {
+	bool resolve_collision_find(size_t& idx, const key_t& key, value_t& value) {
 		size_t n = 0;
 		while (n < m_capacity && !saved) {
 			idx = (idx + 1) % m_capacity;
@@ -195,18 +195,19 @@ public:
 	}
 
 	void remove(const key_t& key) {
-		// TODO
-	}
-
-	value_t find(const key_t& key) const {
-		// TODO
-	}
-
-	bool contains(const key_t& key) const {
 		size_t idx = get_hash(key);
-		if (m_bucket[idx].status == bucket_status::EMPTY)
-			return false;
-		
+		if (is_free_slot(idx)) return false;
+
+		value_t dummy;
+		if (resolve_collision_find(idx, key, dummy)) {
+			m_bucket[idx].status = bucket_status::DELETED;
+		}
+	}
+
+	bool find(const key_t& key, value_t& value) const {
+		size_t idx = get_hash(key);
+		if (is_free_slot(idx)) return false;
+
 		value_t dummy;
 		return resolve_collision_find(idx, key, dummy);
 	}
