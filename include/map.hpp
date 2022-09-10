@@ -2,7 +2,6 @@
 #define __MAP__HPP__
 
 #include <stdexcept>
-#include <iterator>
 
 template <class key_t, class value_t>
 class map {
@@ -15,7 +14,6 @@ private:
 	void rehash() {
 		// TODO
 	}
-
 public:
 	map() {
 		// TODO

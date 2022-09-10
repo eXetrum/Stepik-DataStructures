@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{79F6A750-DCBD-43C6-934A-F69013FA10E6}"
 	ProjectSection(SolutionItems) = preProject
+		include\map.hpp = include\map.hpp
 		include\max_queue.hpp = include\max_queue.hpp
 		include\max_stack.hpp = include\max_stack.hpp
 		include\priority_queue.hpp = include\priority_queue.hpp
