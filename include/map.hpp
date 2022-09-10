@@ -2,16 +2,52 @@
 #define __MAP__HPP__
 
 #include <stdexcept>
+#include <iterator>
 
-template <class Type>
+template <class key_t, class value_t>
 class map {
-private:
 protected:
+	int m_size;
+	int m_capacity;
+	key_t* ket_set;
+	value_t* value_set;
+private:
+	void rehash() {
+		// TODO
+	}
 
 public:
-	map() {}
-	map(const map& other) {}
-	~map() { }
+	map() {
+		// TODO
+	}
+
+	map(const map& other) {
+		// TODO
+	}
+
+	~map() {
+		// TODO
+	}
+
+	map& operator=(const map& rhs) {
+		if (this != &rhs) {
+			// TODO
+		}
+		return *this;
+	}
+
+	const value_t& operator[](int index) const {
+		// TODO
+	}
+
+	value_t& operator[](int index) {
+		// TODO
+	}
+
+	bool empty() const { return m_size == 0; }
+
+	int size() const { return m_size; }
+
 };
 
 #endif // !__MAP__HPP__
