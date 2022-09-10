@@ -26,10 +26,12 @@ private:
 		DELETED
 	};
 
-	class bucket_t {
+	struct bucket_t {
 		key_t key;
 		value_t value;
 		bucket_status status;
+		bucket_t()
+			: status(bucket_status::EMPTY) {}
 	};
 protected:
 	size_t m_size;
@@ -133,26 +135,26 @@ public:
 	}
 
 	const value_t& operator[](const key_t& key) const {
-		// TODO
-		throw std::runtime_error("not implemented");
+		ensure_capacity();
+		size_t idx = get_hash(key);
+
+		if (can_insert_at(idx)) {
+			put_item(idx, key, value_t());
+		}
+
+		return m_bucket[idx].value;
 	}
 
 	value_t& operator[](const key_t& key) {
-		// TODO
 		ensure_capacity();
 		size_t idx = get_hash(key);
-		printf("%d", (int)key);
-		// Create new
-		//if (bucket[idx].status == bucket_status::EMPTY) {
-			//bucket[idx].key = key
-		//}
-		/*size_t n = 0;
-		while (n < m_capacity) {
-			idx
-			++n;
-		}*/
 
-		throw std::runtime_error("not implemented");
+		if (can_insert_at(idx)) {
+			++m_size;
+			put_item(idx, key, value_t());
+		}
+
+		return m_bucket[idx].value;
 	}
 
 	void insert(const key_t& key, const value_t& value) {
@@ -170,6 +172,10 @@ public:
 	bool contains(const key_t& key) const {
 		// TODO
 		return false;
+	}
+
+	void dump() const {
+
 	}
 
 	void clear() {
