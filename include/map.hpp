@@ -46,6 +46,10 @@ public:
 
 	int size() const { return m_size; }
 
+	void erase(const key_t& key) {
+		// TODO
+	}
+
 };
 
 #endif // !__MAP__HPP__
