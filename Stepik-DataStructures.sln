@@ -15,8 +15,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_MaxStack", "01_Week\04_M
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_MaxInSlideWindow", "01_Week\05_MaxInSlideWindow\MaxInSlideWindow.vcxproj", "{AA70EE4F-4A5A-400B-BB71-A83CFF5DDC67}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Week", "02_Week", "{042B7766-E62B-4758-8FD1-63C39D231F89}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{79F6A750-DCBD-43C6-934A-F69013FA10E6}"
 	ProjectSection(SolutionItems) = preProject
 		include\max_queue.hpp = include\max_queue.hpp
@@ -25,11 +23,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{79F6
 		include\stack.hpp = include\stack.hpp
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Week", "02_Week", "{042B7766-E62B-4758-8FD1-63C39D231F89}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_BuildHeap", "02_Week\01_BuildHeap\BuildHeap.vcxproj", "{C8EB8DB2-D5C7-4A9A-970A-A13699A89859}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_ParallelProcessing", "02_Week\02_ParalelProcessing\ParalelProcessing.vcxproj", "{A69D8BF8-D9DE-47A9-8E5E-ED0A6BD6C45E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_UnionTables", "02_Week\03_UnionTables\UnionTables.vcxproj", "{C11FD21F-FBDE-432F-8150-B4DB376FBA74}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_AutoAnalysis", "02_Week\04_AutoAnalysis\AutoAnalysis.vcxproj", "{6B864922-3C95-4A7E-8531-9B9AD2A9697B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,14 @@ Global
 		{C11FD21F-FBDE-432F-8150-B4DB376FBA74}.Release|x64.Build.0 = Release|x64
 		{C11FD21F-FBDE-432F-8150-B4DB376FBA74}.Release|x86.ActiveCfg = Release|Win32
 		{C11FD21F-FBDE-432F-8150-B4DB376FBA74}.Release|x86.Build.0 = Release|Win32
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Debug|x64.ActiveCfg = Debug|x64
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Debug|x64.Build.0 = Debug|x64
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Debug|x86.ActiveCfg = Debug|Win32
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Debug|x86.Build.0 = Debug|Win32
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Release|x64.ActiveCfg = Release|x64
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Release|x64.Build.0 = Release|x64
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Release|x86.ActiveCfg = Release|Win32
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +126,7 @@ Global
 		{C8EB8DB2-D5C7-4A9A-970A-A13699A89859} = {042B7766-E62B-4758-8FD1-63C39D231F89}
 		{A69D8BF8-D9DE-47A9-8E5E-ED0A6BD6C45E} = {042B7766-E62B-4758-8FD1-63C39D231F89}
 		{C11FD21F-FBDE-432F-8150-B4DB376FBA74} = {042B7766-E62B-4758-8FD1-63C39D231F89}
+		{6B864922-3C95-4A7E-8531-9B9AD2A9697B} = {042B7766-E62B-4758-8FD1-63C39D231F89}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {829B1F5A-BB8B-488E-AEED-41FF81ECB8EC}
