@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include <map>
-//#include "../../include/map.hpp"
+//#include <map>
+#include "../../include/map.hpp"
 using namespace std;
 
 int main() {
@@ -13,11 +13,15 @@ int main() {
     for (int i = 0; i < n; ++i) {
         cin >> cmd;
         if (cmd == "add") {
-            // TODO
+            cin >> key >> value;
+            db.insert(key, value);
         } else if(cmd == "find") {
-            // TODO
+            cin >> key;
+            if (db.contains(key)) { cout << db[key] << endl; }
+            else { cout << "not found" << endl; }
         } else if(cmd == "del") {
-            // TODO
+            cin >> key;
+            db.remove(key);
         }
         cout << db.size() << endl;
     }
