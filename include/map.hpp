@@ -135,7 +135,7 @@ public:
 	}
 
 	const value_t& operator[](const key_t& key) const {
-		ensure_capacity();
+		/*ensure_capacity();
 		size_t idx = get_hash(key);
 
 		if (can_insert_at(idx)) {
@@ -143,7 +143,7 @@ public:
 			put_item(idx, key, value_t());
 		}
 
-		return m_bucket[idx].value;
+		return m_bucket[idx].value;*/
 	}
 
 	value_t& operator[](const key_t& key) {
