@@ -21,7 +21,6 @@ private:
 public:
     priority_queue()
         : m_size(0), m_capacity(DEFAULT_CAPACITY) {
-
         m_data = new Type[m_capacity];
     }
 
@@ -73,8 +72,13 @@ public:
         return m_data[0];
     }
 
-    //data_type remove(iterator it);
-    //void change_priority(iterator it, Type p);
+    Type remove(std::iterator it) {
+        throw std::runtime_error("not implemented");
+    }
+    
+    void change_priority(std::iterator it, Type p) {
+        throw std::runtime_error("not implemented");
+    }
 
     void dump() const {
         std::cout << "Queue: " << std::endl;
