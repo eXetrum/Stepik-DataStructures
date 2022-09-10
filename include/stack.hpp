@@ -48,6 +48,8 @@ public:
 		return *this;
 	}
 
+	~stack() { clear(); }
+
 	bool empty() const { return m_size == 0; }
 
 	size_t size() const { return m_size; }
@@ -67,10 +69,6 @@ public:
 		Type item = data[m_size - 1];
 		--m_size;
 		return item;
-	}
-
-	~stack() { 
-		clear();
 	}
 
 	void clear() {
