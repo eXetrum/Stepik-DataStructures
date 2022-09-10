@@ -1,25 +1,16 @@
 #ifndef __MAP__HPP__
 #define __MAP__HPP__
 
-/*
-#include <iterator> // For std::forward_iterator_tag
-#include <cstddef>  // For std::ptrdiff_t
-
-struct Iterator {
-	using iterator_category = std::forward_iterator_tag;
-	using difference_type = std::ptrdiff_t;
-	using value_type = int;
-	using pointer = int*;  // or also value_type*
-	using reference = int&;  // or also value_type&
-};*/
+#include <iostream>
+#include <string>
 #include <stdexcept>
 #include <functional>
-
 
 template <class key_t, class value_t>
 class map {
 	const int DEFAULT_CAPACITY = 32;
 private:
+
 	enum bucket_status {
 		EMPTY=0,
 		BUSSY,
@@ -33,11 +24,23 @@ private:
 		bucket_t()
 			: status(bucket_status::EMPTY) {}
 	};
+
 protected:
 	size_t m_size;
 	size_t m_capacity;
 	bucket_t* m_bucket;
 private:
+
+	std::string get_status_str(bucket_status status) const {
+		switch (status)
+		{
+		case bucket_status::EMPTY: return "EMPTY"; break;
+		case bucket_status::BUSSY: return "BUSSY"; break;
+		case bucket_status::DELETED: return "DELETED"; break;
+		default:
+			break;
+		}
+	}
 
 	template <const char*>
 	size_t hash(const char* key) const {
@@ -90,10 +93,9 @@ private:
 		if (saved == false) throw std::runtime_error("[resolve_collision] failed");
 	}
 
-	bool resolve_collision_find(size_t& idx, const key_t& key, value_t& value) {
+	bool resolve_collision_find(size_t& idx, const key_t& key, value_t& value) const {
 		size_t n = 0;
-		while (n < m_capacity && !saved) {
-			idx = (idx + 1) % m_capacity;
+		while (n < m_capacity) {
 			// End of chaining
 			if (is_free_slot(idx)) return false;
 
@@ -101,7 +103,7 @@ private:
 				value = m_bucket[idx].value;
 				return true;
 			}
-
+			idx = (idx + 1) % m_capacity;
 			++n;
 		}
 		return false;
@@ -124,7 +126,7 @@ private:
 				if (is_free_slot(idx)) {
 					put_item(idx, m_old_bucket[i].key, m_old_bucket[i].value);
 				} else { // Linear probe
-					resolve_collision_insert(idx, m_old_bucket[i].key, m_old_bucket[i].value)
+					resolve_collision_insert(idx, m_old_bucket[i].key, m_old_bucket[i].value);
 				}
 			}
 
@@ -175,7 +177,7 @@ public:
 		ensure_capacity();
 		size_t idx = get_hash(key);
 
-		if (can_insert_at(idx)) {
+		if (is_free_slot(idx)) {
 			put_item(idx, key, value_t());
 			++m_size;
 		}
@@ -196,7 +198,7 @@ public:
 
 	void remove(const key_t& key) {
 		size_t idx = get_hash(key);
-		if (is_free_slot(idx)) return false;
+		if (is_free_slot(idx)) return;
 
 		value_t dummy;
 		if (resolve_collision_find(idx, key, dummy)) {
@@ -208,12 +210,13 @@ public:
 		size_t idx = get_hash(key);
 		if (is_free_slot(idx)) return false;
 
-		value_t dummy;
-		return resolve_collision_find(idx, key, dummy);
+		return resolve_collision_find(idx, key, value);
 	}
 
 	void dump() const {
-
+		for (size_t i = 0; i < m_capacity; ++i) {
+			std::cout << get_status_str(m_bucket[i].status) << " " << m_bucket[i].key << " " << m_bucket[i].value << std::endl;
+		}
 	}
 
 	void clear() {
