@@ -139,6 +139,7 @@ public:
 		size_t idx = get_hash(key);
 
 		if (can_insert_at(idx)) {
+			++m_size;
 			put_item(idx, key, value_t());
 		}
 
