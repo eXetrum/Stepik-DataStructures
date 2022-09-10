@@ -1,5 +1,5 @@
-#ifndef __MAX__QUEUE__H__
-#define __MAX__QUEUE__H__
+#ifndef __MAX__QUEUE__HPP__
+#define __MAX__QUEUE__HPP__
 
 #include <stdexcept>
 #include "max_stack.hpp"
@@ -54,4 +54,4 @@ public:
 	}
 };
 
-#endif // !__MAX__QUEUE__H__
+#endif // !__MAX__QUEUE__HPP__
