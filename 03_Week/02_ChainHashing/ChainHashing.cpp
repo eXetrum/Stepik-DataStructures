@@ -4,17 +4,31 @@
 #include <list>
 using namespace std;
 
-template <class key_t=string>
 class hash_table {
-    vector<list<key_t>> bucket;
-public:
-    hash_table(size_t size) { bucket.resize(size); }
+    size_t m;
+    vector<list<string>> bucket;
+private:
+    size_t hash(const string& S) const {
+        const unsigned long long X = 263;
+        const unsigned long long P = 1000000007;
+        size_t x = 1;
 
-    void add(const key_t& key) {
+        unsigned long long sum = 0;
+        for (size_t i = 0; i < S.size(); ++i) {
+            sum += ((S[i] * x) % P);
+        }
+
+        return sum % m;
+    }
+public:
+    hash_table(size_t m)
+        : m(m) { bucket.resize(m); }
+
+    void add(const string& key) {
         // TODO
     }
 
-    bool find(const key_t& key) const {
+    bool find(const string& key) const {
         // TODO
     }
 
@@ -22,7 +36,7 @@ public:
         // TODO
     }
 
-    void remove(const key_t& key) {
+    void remove(const string& key) {
         // TODO
     }
 };
@@ -33,7 +47,7 @@ int main() {
 
     cin >> m >> n;
     
-    hash_table<string> table(m);
+    hash_table table(m);
 
     for(int i = 0; i < n; ++i) {
         cin >> cmd;
