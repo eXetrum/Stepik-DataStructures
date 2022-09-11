@@ -5,12 +5,10 @@ using namespace std;
 
 
 
-class rolling_hash {   
+class pattern_search {   
     const long long P = 1000000007;
     const long long X = 263;
-private:    
-    
-
+private:
     long long hash(const string& S, long long m) const {
         long long sum = 0;
         long long x = 1;
@@ -20,11 +18,7 @@ private:
         return sum;
     }
 
-    long long roll(long long prev_hash, char prev_char, char new_char) {
-        /*previous_hash = ((previous_hash - prev_char * multiplier) * D + new_char) % P;
-        if (previous_hash < 0) previous_hash = previous_hash + P;
-        return previous_hash;*/
-
+    long long rolling_hash(long long prev_hash, char prev_char, char new_char) {
         prev_hash += P;
         prev_hash = (prev_hash - (prev_char * max_factor) % P) % P;
         prev_hash = (prev_hash * X) % P;
@@ -40,7 +34,6 @@ protected:
 
     long long pattern_hash;    
     long long cur_substr_hash;
-
     
     bool is_pattern_match_window() const {
         for (long long i = 0; i < m; ++i) {
@@ -49,7 +42,7 @@ protected:
         return true;
     }
 public:
-    rolling_hash(const string& pattern, const string& text) {
+    pattern_search(const string& pattern, const string& text) {
         reset(pattern, text);
     }
 
@@ -69,7 +62,7 @@ public:
 
     long long get_cursor_pos() const { return cursor_pos; }
     
-    bool can_move_cursor() const { return cursor_pos < text.size() - m + 1; }
+    bool can_move_cursor() const { return cursor_pos < (long long)text.size() - m + 1; }
     
     void next() {
         bool verbose = false;
@@ -81,8 +74,8 @@ public:
             cout << "Pattern h=" << pattern_hash << ", substr direct hash=" << hash(text.substr(cursor_pos, m), m) << ", substr rolling hash=" << cur_substr_hash << ", substr=" << text.substr(cursor_pos, m) << endl;
 
         // Shift window, and recalculate hash
-        if (cursor_pos + m < text.size()) {
-            cur_substr_hash = roll(cur_substr_hash, text[cursor_pos], text[cursor_pos + m]);
+        if (cursor_pos + m < (long long)text.size()) {
+            cur_substr_hash = rolling_hash(cur_substr_hash, text[cursor_pos], text[cursor_pos + m]);
         }
         ++cursor_pos;
     }
@@ -93,9 +86,9 @@ int main() {
 
     cin >> pattern >> text;    
 
-    rolling_hash hs(pattern, text);
-    while (hs.can_move_cursor()) {
-        hs.next();
+    pattern_search ps(pattern, text);
+    while (ps.can_move_cursor()) {
+        ps.next();
     }
 
     return 0;
