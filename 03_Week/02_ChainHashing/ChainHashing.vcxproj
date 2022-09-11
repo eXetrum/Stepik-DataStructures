@@ -24,7 +24,6 @@
     <ProjectGuid>{2a64f815-f57e-4873-b838-23d7d7ba3245}</ProjectGuid>
     <RootNamespace>ChainHashing</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>02_ChainHashing</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
