@@ -40,7 +40,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_PhoneBook", "03_Week\01_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_ChainHashing", "03_Week\02_ChainHashing\ChainHashing.vcxproj", "{2A64F815-F57E-4873-B838-23D7D7BA3245}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_PatternSearching[Rabin-Karp]", "03_Week3\03_PatternSearching[Rabin-Karp]\PatternSearching[Rabin-Karp].vcxproj", "{29940D2A-516B-45FC-8743-34895CBBAF55}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_PatternSearching[Rabin-Karp]", "03_Week\03_PatternSearching[Rabin-Karp]\PatternSearching[Rabin-Karp].vcxproj", "{29940D2A-516B-45FC-8743-34895CBBAF55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
