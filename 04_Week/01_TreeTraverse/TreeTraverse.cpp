@@ -1,9 +1,13 @@
 #include <iostream>
 #include <vector>
+using namespace std;
+
+#include <iostream>
+#include <vector>
 #include <functional>
 using namespace std;
 
-template <class Type=int>
+template <class Type = int>
 class binary_search_tree_t {
 private:
     binary_search_tree_t(const binary_search_tree_t&) = delete;
