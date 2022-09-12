@@ -1,5 +1,5 @@
-#ifndef __MAP__HPP__
-#define __MAP__HPP__
+#ifndef __HASH__TABLE__HPP__
+#define __HASH__TABLE__HPP__
 
 #include <iostream>
 #include <string>
@@ -7,7 +7,7 @@
 #include <functional>
 
 template <class key_t, class value_t>
-class map {
+class hash_table {
 	const int DEFAULT_CAPACITY = 32;
 private:
 
@@ -136,12 +136,12 @@ private:
 	}
 public:
 
-	map()
+	hash_table()
 		: m_size(0), m_capacity(DEFAULT_CAPACITY), m_bucket(nullptr) {
 		m_bucket = new bucket_t[m_capacity];
 	}
 
-	map(const map& other)
+	hash_table(const hash_table& other)
 		: m_size(other.m_size), m_capacity(other.m_capacity), m_bucket(nullptr) {
 		m_bucket = new bucket_t[m_capacity];
 		for (size_t i = 0; i < m_capacity; ++i) {
@@ -149,11 +149,11 @@ public:
 		}
 	}
 
-	~map() { clear(); }
+	~hash_table() { clear(); }
 
-	map& operator=(const map& rhs) {
+	hash_table& operator=(const hash_table& rhs) {
 		if (this != &rhs) {
-			map temp(rhs);
+			hash_table temp(rhs);
 			swap(m_size, temp.m_size);
 			swap(m_capacity, temp.m_capacity);
 			swap(m_bucket, temp.m_bucket);
@@ -230,4 +230,4 @@ public:
 	size_t size() const { return m_size; }
 };
 
-#endif // !__MAP__HPP__
+#endif // !__HASH__TABLE__HPP__
