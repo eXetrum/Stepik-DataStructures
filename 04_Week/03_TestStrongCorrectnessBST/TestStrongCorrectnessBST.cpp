@@ -87,8 +87,9 @@ private:
         return A[0];
     }
 
-    bool is_level_correct(node_t* parent, node_t* left, node_t* right, node_t* grand_parent=nullptr) const {
-        return (parent == nullptr) || ((left == nullptr || left->key < parent->key) && (right == nullptr || parent->key < right->key));
+    bool is_level_correct(node_t* parent, node_t* left, node_t* right) const {
+        return (parent == nullptr) 
+            || ((left == nullptr || left->key < parent->key) && (right == nullptr || parent->key < right->key));
     }
 
     bool helper_is_correct_bst(node_t* node, double min_value, double max_value) {
@@ -102,16 +103,11 @@ private:
         if (current == false) return false;
         node_t* parent = node->parent;
         if (parent != nullptr) {
-            // Left subtree
-            if (parent->left == node && key < min_value) return false;
-            // Right subtree
-            if (parent->right == node && key > max_value) return false;
+            // Check left and right subtree
+            if ((parent->left == node && key < min_value) || (parent->right == node && key > max_value)) return false;
         }
 
-        bool L = helper_is_correct_bst(node->left, min_value, key);
-        bool R = helper_is_correct_bst(node->right, key, max_value);
-
-        return L && R;
+        return helper_is_correct_bst(node->left, min_value, key) && helper_is_correct_bst(node->right, key, max_value);
     }
 public:
     void in_order_traverse(function<void(const Type& key)> f) { helper_in_order_traverse(root, f); }
@@ -121,10 +117,7 @@ public:
     void clear() { helper_destroy_tree(root); }
     bool empty() const { return root == nullptr; }
 
-    bool is_correct_bst() {
-        
-        return root == nullptr || helper_is_correct_bst(root, -INFINITY, +INFINITY);
-    }
+    bool is_correct_bst() { return root == nullptr || helper_is_correct_bst(root, -INFINITY, +INFINITY); }
 };
 
 int main() {
