@@ -105,6 +105,5 @@ public:
 
 int main() {
     splay_tree_t<int> tree;
-    cout << (tree.is_correct_bst() ? "CORRECT" : "INCORRECT") << endl;
     return 0;
 }
