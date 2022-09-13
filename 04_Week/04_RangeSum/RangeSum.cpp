@@ -24,31 +24,31 @@ protected:
 public:
     splay_tree_t()
         : root(nullptr) {
-        root = helper_build_tree();
+        root = build_tree_helper();
     }
 
     ~splay_tree_t() { clear(); }
 
 private:
-    void helper_destroy_tree(node_t* node) {
+    void destroy_tree_helper(node_t* node) {
         if (node == nullptr) return;
-        helper_destroy_tree(node->left);
-        helper_destroy_tree(node->right);
+        destroy_tree_helper(node->left);
+        destroy_tree_helper(node->right);
         delete node;
     }
 
-    void helper_in_order_traverse(node_t* node, function<void(const Type& key)> f) {
+    void in_order_traverse_helper(node_t* node, function<void(const Type& key)> f) {
         if (node == nullptr) return;
-        helper_in_order_traverse(node->left, f);
+        in_order_traverse_helper(node->left, f);
         f(node->key);
-        helper_in_order_traverse(node->right, f);
+        in_order_traverse_helper(node->right, f);
     }
 
-    void helper_pre_order_traverse(node_t* node, function<void(const Type& key)> f) {
+    void pre_order_traverse_helper(node_t* node, function<void(const Type& key)> f) {
         if (node == nullptr) return;
         f(node->key);
-        helper_pre_order_traverse(node->left, f);
-        helper_pre_order_traverse(node->right, f);
+        pre_order_traverse_helper(node->left, f);
+        pre_order_traverse_helper(node->right, f);
     }
 
     void helper_post_order_traverse(node_t* node, function<void(const Type& key)> f) {
@@ -58,7 +58,7 @@ private:
         f(node->key);
     }
 
-    node_t* helper_build_tree() {
+    node_t* build_tree_helper() {
         int n;
         cin >> n;
 
@@ -86,20 +86,53 @@ private:
         }
         return A[0];
     }
+
+    void split(node_t* u) {
+        // TODO
+    }
+
+    void splay(node_t* u) {
+        // TODO
+    }
+
+    void merge(node_t* v1, node_t* v2) {
+        // TODO
+    }
+
+    node_t* insert_helper(node_t* node, const Type& key) {
+        // TODO
+        if (node == nullptr) {
+            node = new node_t(key);
+            //splay(node);
+        }
+        if (node->key < key) {
+            node->left = insert_helper(node->left, key);
+        } else if (node->key > key) {
+            node->left = insert_helper(node->left, key);
+        } // else key is already in the tree
+
+        return node;
+    }
 public:
-    void in_order_traverse(function<void(const Type& key)> f) { helper_in_order_traverse(root, f); }
-    void pre_order_traverse(function<void(const Type& key)> f) { helper_pre_order_traverse(root, f); }
+    void in_order_traverse(function<void(const Type& key)> f) { in_order_traverse_helper(root, f); }
+    void pre_order_traverse(function<void(const Type& key)> f) { pre_order_traverse_helper(root, f); }
     void post_order_traverse(function<void(const Type& key)> f) { helper_post_order_traverse(root, f); }
 
-    void clear() { helper_destroy_tree(root); }
+    void clear() { destroy_tree_helper(root); }
     bool empty() const { return root == nullptr; }
 
     void insert(const Type& key) {
         // TODO
+        root = insert_helper(root, key);
     }
 
     bool search(const Type& key) {
         // TODO
+    }
+
+    void remove(const Type& key) {
+        // TODO
+        //remove_helper(root, key);
     }
 };
 
