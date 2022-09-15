@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Set with Range Sums using Splay Tree, Black Vinegar">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Set with Range Sums using Splay Tree | Black Vinegar</title>
+    <link rel="icon" type="image/png" href="https://chujiechen.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/all.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/aos.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/matery.css">
+    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/my.css">
+
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/push.js"></script><script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="https://chujiechen.github.io/atom.xml" title="Black Vinegar" type="application/atom+xml">
+<style type="text/css">.heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}</style><link rel="prefetch"></head>
+
+
+
+
+<body data-aos-easing="ease-in-out-sine" data-aos-duration="700" data-aos-delay="100" class="">
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="https://chujiechen.github.io/" class="waves-effect waves-light">
+                    
+                    <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Black Vinegar</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>Home</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>Tags</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>Categories</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>Archives</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>About</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="https://chujiechen.github.io/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>Contact</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Black Vinegar</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Home
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			Tags
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			Categories
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			Archives
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			About
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="https://chujiechen.github.io/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码 Password Needed')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！Incorrect Password');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.growingwiththeweb.com/images/data-structures/splay-tree/zig-zag-left.svg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Set with Range Sums using Splay Tree</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content" style="min-height: 790px;">
+
+    
+    <link rel="stylesheet" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="https://chujiechen.github.io/tags/Algorithm/">
+                                <span class="chip bg-color">Algorithm</span>
+                            </a>
+                        
+                            <a href="https://chujiechen.github.io/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="https://chujiechen.github.io/categories/Algorithm/" class="post-category">
+                                Algorithm
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-09-12
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Splay_tree">splay tree</a>
+ is a self-balancing binary search tree. It performs operations such as 
+insertion, look-up and removal in O(log n) amortized time. The splay 
+tree moves recently accessed elements to the root by splaying, so if the
+ element is queried again it can be reached in O(1) time.</p>
+<p>A fully-fledged splay tree involves such operations:</p>
+<ul>
+<li>Splay: moving the recently accessed nodes to the root through a series of rotations below based on different situation<ul>
+<li>Zig</li>
+<li>Zig-zig and Zag-zag</li>
+<li>Zig-zag and Zag-zig</li>
+</ul>
+</li>
+<li>Join: merging two subtrees</li>
+<li>Split: splitting one tree into two subtrees</li>
+<li>Insert: add an element</li>
+<li>Delete: remove an element</li>
+<li>Find: look up an element</li>
+</ul>
+<p>A good visualization can be found <a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/SplayTree.html">here</a>. More details about splay trees and above operations can be found on <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Splay_tree">Wikipedia</a>. Here I use an example called <strong>Set with range sums</strong> to show the application of splay trees.</p>
+<h2 id="toc-heading-1"><a href="#Set-with-Range-Sums" class="headerlink" title="Set with Range Sums" target="_blank"></a>Set with Range Sums</h2><h3 id="toc-heading-2"><a href="#Description" class="headerlink" title="Description" target="_blank"></a>Description</h3><p>Implement a data structure that stores a set 𝑆 of integers with the following allowed operations:</p>
+<ul>
+<li><strong>add(𝑖)</strong> — add integer 𝑖 into the set <em>S</em> (if it was there already, the set doesn’t change).</li>
+<li><strong>del(𝑖)</strong> — remove integer 𝑖 from the set 𝑆 (if there was no such element, nothing happens).</li>
+<li><strong>find(𝑖)</strong> — check whether 𝑖 is in the set 𝑆 or not.</li>
+<li><strong>sum(l, r)</strong> — output the sum of all elements 𝑣 in 𝑆 such that 𝑙 ≤𝑣 ≤𝑟.</li>
+</ul>
+<p>Initially the set 𝑆 is empty. The first line contains 𝑛 — the 
+number of operations. The next 𝑛 lines contain operations. Each 
+operation is one of the following:</p>
+<ul>
+<li> “+ i” — which means add some integer (not 𝑖, see below) to 𝑆,</li>
+<li>  “- i” — which means del some integer (not 𝑖, see below) from 𝑆,</li>
+<li>  “? i” — which means find some integer (not 𝑖, see below)in 𝑆,</li>
+<li>“s l r” — which means compute the sum of all elements of 𝑆 within some range of values (not from 𝑙 to 𝑟, see below).</li>
+</ul>
+<p>To avoid integer overflow, we denote M = 1 000 000 001 and let x be the result of the last <strong>sum</strong> operation, or just 0 if there were no <strong>sum</strong> operations before.</p>
+<ul>
+<li> “+ i” means <strong>add</strong>((𝑖 + 𝑥) mod 𝑀),  </li>
+<li>  “- i” means <strong>del</strong>((𝑖 + 𝑥) mod 𝑀),  </li>
+<li>  “? i” means <strong>find</strong>((𝑖 + 𝑥) mod 𝑀),  </li>
+<li>“s l r” means <strong>sum</strong>((𝑙+𝑥) mod 𝑀, (𝑟 + 𝑥) mod 𝑀).</li>
+</ul>
+<p>Constraints. 1 ≤ n ≤ 100 000; 0 ≤ i ≤ 10^9.</p>
+<hr>
+<p>This is typical problem that needs a splay tree if you care about the efficiency, as we can use the <strong>Split</strong> to get the range sum and <strong>Join</strong> two subtrees back to restore the structure.</p>
+<h3 id="toc-heading-3"><a href="#Thoughts" class="headerlink" title="Thoughts" target="_blank"></a>Thoughts</h3><p>The idea is each <strong>Vertex</strong> (TreeNode) has a <strong>key</strong> representing an integer, a <strong>sum</strong> recording the sum of all the keys in the subtree, a <strong>left</strong> pointing to its left child vertex, a <strong>right</strong> pointing to its right child vertex, and a <strong>parent</strong> pointing to its parent vertex. Note that the <strong>sum</strong> is not static, but will constantly change as the splay tree changes.</p>
+<p>With this design, <strong>add</strong> would just be Insert a vertex; <strong>del</strong> is the same as Delete; <strong>find</strong> equals Find. How about <strong>sum(l, r)</strong>? Well, if we <em>split</em> the splay tree into three subtrees: <strong><em>I</em></strong> (nodes having keys smaller than <strong>l</strong>), <strong><em>J</em></strong> (keys are greater than <strong>l</strong> but smaller than <strong>r</strong>), and <strong><em>K</em></strong> (keys are greater than <strong>r</strong>). Obviously, the sum we want is the sum stored in the root of the middle subtree <strong><em>J</em></strong>.
+ Once we get the sum we need, we just need to merge three parts back. 
+All operations of the splay tree run in $O(log n)$ time on average, so 
+this is a very effective way to solve the problem.</p>
+<h2 id="toc-heading-4"><a href="#Let’s-Code" class="headerlink" title="Let’s Code!" target="_blank"></a>Let’s Code!</h2><h3 id="toc-heading-5"><a href="#Skeleton" class="headerlink" title="Skeleton" target="_blank"></a>Skeleton</h3><p>First, let me present the skeleton of the java class that handles i/o.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token operator">*</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token operator">*</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SetRangeSum</span> <span class="token punctuation">{</span>
+    <span class="token class-name">BufferedReader</span> br<span class="token punctuation">;</span>
+    <span class="token class-name">PrintWriter</span> out<span class="token punctuation">;</span>
+    <span class="token class-name">StringTokenizer</span> st<span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> eof<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> MODULO <span class="token operator">=</span> <span class="token number">1000000001</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> last_sum_result <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">char</span> type <span class="token operator">=</span> <span class="token function">nextChar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">case</span> <span class="token string">'+'</span><span class="token operator">:</span>
+                    <span class="token punctuation">{</span>
+                        <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token function">insert</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x <span class="token operator">+</span> last_sum_result<span class="token punctuation">)</span> <span class="token operator">%</span> MODULO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">'-'</span><span class="token operator">:</span>
+                    <span class="token punctuation">{</span>
+                        <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token function">erase</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x <span class="token operator">+</span> last_sum_result<span class="token punctuation">)</span> <span class="token operator">%</span> MODULO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">'?'</span><span class="token operator">:</span>
+                    <span class="token punctuation">{</span>
+                        <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x <span class="token operator">+</span> last_sum_result<span class="token punctuation">)</span> <span class="token operator">%</span> MODULO<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">"Found"</span> <span class="token operator">:</span> <span class="token string">"Not found"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">'s'</span><span class="token operator">:</span>
+                    <span class="token punctuation">{</span>
+                        <span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">long</span> res <span class="token operator">=</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">(</span>l <span class="token operator">+</span> last_sum_result<span class="token punctuation">)</span> <span class="token operator">%</span> MODULO<span class="token punctuation">,</span> <span class="token punctuation">(</span>r <span class="token operator">+</span> last_sum_result<span class="token punctuation">)</span> <span class="token operator">%</span> MODULO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        last_sum_result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">(</span>res <span class="token operator">%</span> MODULO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token class-name">SetRangeSum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        br <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        out <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PrintWriter</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">new</span> <span class="token class-name">SetRangeSum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token class-name">String</span> <span class="token function">nextToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>st <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> <span class="token operator">!</span>st<span class="token punctuation">.</span><span class="token function">hasMoreTokens</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                st <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringTokenizer</span><span class="token punctuation">(</span>br<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                eof <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> st<span class="token punctuation">.</span><span class="token function">nextToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">int</span> <span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token function">nextToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">char</span> <span class="token function">nextChar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">nextToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>Clearly, we need to define the Vertex as the TreeNode in the splay tree. A vertex is defined to be able to hold a value <code>key</code>, the sum below the present node <code>sum</code>, <code>left</code> / <code>right</code> child node, and its <code>parent</code> node.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// Splay tree implementation</span>
+<span class="token comment">// Vertex of a splay tree</span>
+<span class="token keyword">class</span> <span class="token class-name">Vertex</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> key<span class="token punctuation">;</span>
+    <span class="token comment">// Sum of all the keys in the subtree - remember to update</span>
+    <span class="token comment">// it after each operation that changes the tree.</span>
+    <span class="token keyword">long</span> sum<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> parent<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span><span class="token punctuation">(</span><span class="token keyword">int</span> key<span class="token punctuation">,</span> <span class="token keyword">long</span> sum<span class="token punctuation">,</span> <span class="token class-name">Vertex</span> left<span class="token punctuation">,</span> <span class="token class-name">Vertex</span> right<span class="token punctuation">,</span> <span class="token class-name">Vertex</span> parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>key <span class="token operator">=</span> key<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>sum <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>parent <span class="token operator">=</span> parent<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token class-name">Vertex</span> root <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h3 id="toc-heading-6"><a href="#Basic-operations" class="headerlink" title="Basic operations" target="_blank"></a>Basic operations</h3><p>Then as described above, we need basic operations like: Splay, Join, Split, Insert, Delete,  and Find. Let’s have the Splay as <code>splay</code> like so. Again, the <code>splay</code> moves the node through a series of rotations (<code>smallRotation / bigRotation</code>) that change the structure of the tree, and thus, the <code>vertex.sum</code> changes accordingly via calling <code>update</code>.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// Makes splay of the given vertex and returns the new root.</span>
+<span class="token class-name">Vertex</span> <span class="token function">splay</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>parent <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">bigRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> v<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">smallRotation</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Vertex</span> parent <span class="token operator">=</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>parent <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token class-name">Vertex</span> grandparent <span class="token operator">=</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>parent<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>parent<span class="token punctuation">.</span>left <span class="token operator">==</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Vertex</span> m <span class="token operator">=</span> v<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+        v<span class="token punctuation">.</span>right <span class="token operator">=</span> parent<span class="token punctuation">;</span>
+        parent<span class="token punctuation">.</span>left <span class="token operator">=</span> m<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Vertex</span> m <span class="token operator">=</span> v<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+        v<span class="token punctuation">.</span>left <span class="token operator">=</span> parent<span class="token punctuation">;</span>
+        parent<span class="token punctuation">.</span>right <span class="token operator">=</span> m<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">update</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">update</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    v<span class="token punctuation">.</span>parent <span class="token operator">=</span> grandparent<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>grandparent <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>grandparent<span class="token punctuation">.</span>left <span class="token operator">==</span> parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            grandparent<span class="token punctuation">.</span>left <span class="token operator">=</span> v<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            grandparent<span class="token punctuation">.</span>right <span class="token operator">=</span> v<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">bigRotation</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>left <span class="token operator">==</span> v <span class="token operator">&amp;&amp;</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>left <span class="token operator">==</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Zig-zig</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>right <span class="token operator">==</span> v <span class="token operator">&amp;&amp;</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>right <span class="token operator">==</span> v<span class="token punctuation">.</span>parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Zig-zig</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">.</span>parent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Zig-zag</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">smallRotation</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+    v<span class="token punctuation">.</span>sum <span class="token operator">=</span> v<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>left <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">?</span> v<span class="token punctuation">.</span>left<span class="token punctuation">.</span>sum <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>right <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">?</span> v<span class="token punctuation">.</span>right<span class="token punctuation">.</span>sum <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>left <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        v<span class="token punctuation">.</span>left<span class="token punctuation">.</span>parent <span class="token operator">=</span> v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>right <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        v<span class="token punctuation">.</span>right<span class="token punctuation">.</span>parent <span class="token operator">=</span> v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>We could also have <code>Join</code> as <code>merge</code> define below. Here we always choose the right root as the new root of the merged tree.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Vertex</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> left<span class="token punctuation">,</span> <span class="token class-name">Vertex</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> right<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>right <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> left<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>right<span class="token punctuation">.</span>left <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        right <span class="token operator">=</span> right<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    right <span class="token operator">=</span> <span class="token function">splay</span><span class="token punctuation">(</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    right<span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
+    <span class="token function">update</span><span class="token punctuation">(</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> right<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>Similarly, we can have <code>Split</code> as <code>split</code>. The <code>find</code> will be given later. At this stage we only need to know the <code>find</code> will give us two vertices given the <code>root</code> of the tree and the queried <code>key</code>: the result node and the new root (remember we always move the recently accessed node to the root). The <code>split</code> here would divide the tree into two trees and return two vertices representing two new roots of two divided trees.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">VertexPair</span> <span class="token function">split</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> root<span class="token punctuation">,</span> <span class="token keyword">int</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">VertexPair</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VertexPair</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span> findAndRoot <span class="token operator">=</span> <span class="token function">find</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    root <span class="token operator">=</span> findAndRoot<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    result<span class="token punctuation">.</span>right <span class="token operator">=</span> findAndRoot<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>right <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">.</span>left <span class="token operator">=</span> root<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    result<span class="token punctuation">.</span>right <span class="token operator">=</span> <span class="token function">splay</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    result<span class="token punctuation">.</span>left <span class="token operator">=</span> result<span class="token punctuation">.</span>right<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    result<span class="token punctuation">.</span>right<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>left <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">.</span>left<span class="token punctuation">.</span>parent <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">update</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">update</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">VertexPair</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Vertex</span> left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right<span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token class-name">VertexPair</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> left<span class="token punctuation">,</span> <span class="token class-name">Vertex</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>left <span class="token operator">=</span> left<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>right <span class="token operator">=</span> right<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>We then have <code>Insert</code> implemented as <code>insert</code>. We utilize <code>split</code> to disconnect the tree at the edge where the node <code>x</code> should be added, and <code>merge</code> the <code>x</code> with left subtree and right subtree.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// System.out.println("Inserting "+x);</span>
+    <span class="token class-name">Vertex</span> left <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> new_vertex <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span> leftRight <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    left <span class="token operator">=</span> leftRight<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    right <span class="token operator">=</span> leftRight<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>right <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> right<span class="token punctuation">.</span>key <span class="token operator">!=</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        new_vertex <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vertex</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> x<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> new_vertex<span class="token punctuation">)</span><span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>We can also have <code>Delete</code> as <code>erase</code>: we use <code>split</code> to break the connection(s) between the targeting node <code>x</code> and the splay tree. Then we merge the rest back together.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">erase</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// use split and merge</span>
+    <span class="token class-name">VertexPair</span> leftMiddle <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> left <span class="token operator">=</span> leftMiddle<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> middle <span class="token operator">=</span> leftMiddle<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span> middleRight <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>middle<span class="token punctuation">,</span> x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    middle <span class="token operator">=</span> middleRight<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right <span class="token operator">=</span> middleRight<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>middle <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> middle<span class="token punctuation">.</span>key <span class="token operator">!=</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> middle<span class="token punctuation">)</span><span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        middle <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>Lastly we have out <code>find</code> described previously.</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// Searches for the given key in the tree with the given root</span>
+<span class="token comment">// and calls splay for the deepest visited node after that.</span>
+<span class="token comment">// Returns pair of the result and the new root.</span>
+<span class="token comment">// If found, result is a pointer to the node with the given key.</span>
+<span class="token comment">// Otherwise, result is a pointer to the node with the smallest</span>
+<span class="token comment">// bigger key (next value in the order).</span>
+<span class="token comment">// If the key is bigger than all keys in the tree,</span>
+<span class="token comment">// then result is null.</span>
+<span class="token class-name">VertexPair</span> <span class="token function">find</span><span class="token punctuation">(</span><span class="token class-name">Vertex</span> root<span class="token punctuation">,</span> <span class="token keyword">int</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Vertex</span> v <span class="token operator">=</span> root<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> last <span class="token operator">=</span> root<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>v <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>key <span class="token operator">&gt;=</span> key <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>next <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> v<span class="token punctuation">.</span>key <span class="token operator">&lt;</span> next<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            next <span class="token operator">=</span> v<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        last <span class="token operator">=</span> v<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>key <span class="token operator">==</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token punctuation">.</span>key <span class="token operator">&lt;</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            v <span class="token operator">=</span> v<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            v <span class="token operator">=</span> v<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    root <span class="token operator">=</span> <span class="token function">splay</span><span class="token punctuation">(</span>last<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">VertexPair</span><span class="token punctuation">(</span>next<span class="token punctuation">,</span> root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">boolean</span> <span class="token function">find</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// By looking into find(Vertex, int) if found,</span>
+    <span class="token comment">// the right of the returned VertexPair is the node</span>
+    <span class="token comment">// the left is the smallest bigger node</span>
+    <span class="token comment">/* Does this work? */</span>
+    <span class="token comment">// 	VertexPair leftRight = find(root, x);</span>
+    <span class="token comment">// 	if(leftRight.right != null &amp;&amp; leftRight.right.key == x) {</span>
+    <span class="token comment">// 		return true;</span>
+    <span class="token comment">// 	}</span>
+    <span class="token comment">//     return false;</span>
+    <span class="token class-name">Vertex</span> left <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span> leftRight <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    left <span class="token operator">=</span> leftRight<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    right <span class="token operator">=</span> leftRight<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>right <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> right<span class="token punctuation">.</span>key <span class="token operator">!=</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p>Finally, we can use the splay tree and calculate the range sum via <code>sum</code>: As described above, we split the tree into three parts among which the middle part ranges from <code>from</code> to <code>to</code>, then we can get the range sum easily. After the query, we just need to merge those three parts back to restore the splay tree.</p>
+<h3 id="toc-heading-7"><a href="#Range-sum" class="headerlink" title="Range sum" target="_blank"></a>Range sum</h3><div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">java</div><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">long</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token keyword">int</span> from<span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token keyword">to</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//    	System.out.println("From "+from + " to " + to);</span>
+    <span class="token class-name">VertexPair</span> leftMiddle <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> from<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> left <span class="token operator">=</span> leftMiddle<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> middle <span class="token operator">=</span> leftMiddle<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token class-name">VertexPair</span> middleRight <span class="token operator">=</span> <span class="token function">split</span><span class="token punctuation">(</span>middle<span class="token punctuation">,</span> <span class="token keyword">to</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    middle <span class="token operator">=</span> middleRight<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    <span class="token class-name">Vertex</span> right <span class="token operator">=</span> middleRight<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    <span class="token keyword">long</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment">// Complete the implementation of sum</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>middle <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        ans <span class="token operator">=</span> middle<span class="token punctuation">.</span>sum<span class="token punctuation">;</span>
+    middle <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>middle<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    root <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> middle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h3 id="toc-heading-8"><a href="#Examples" class="headerlink" title="Examples" target="_blank"></a>Examples</h3><p>The full implementation can be found <a target="_blank" rel="noopener" href="https://github.com/ChujieChen/Data_Structures/blob/master/src/week4/SetRangeSum.java">here</a>. Feel free to test it with some examples below.</p>
+<p><em>Sample 1</em><br>Input:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike"><span class="token number">15</span>
+<span class="token operator">?</span> <span class="token number">1</span>
+<span class="token operator">+</span> <span class="token number">1</span>
+<span class="token operator">?</span> <span class="token number">1</span>
+<span class="token operator">+</span> <span class="token number">2</span>
+s <span class="token number">1</span> <span class="token number">2</span>
+<span class="token operator">+</span> <span class="token number">1000000000</span>
+<span class="token operator">?</span> <span class="token number">1000000000</span>
+<span class="token operator">-</span> <span class="token number">1000000000</span>
+<span class="token operator">?</span> <span class="token number">1000000000</span>
+s <span class="token number">999999999</span> <span class="token number">1000000000</span> <span class="token operator">-</span><span class="token number">2</span>
+<span class="token operator">?</span> <span class="token number">2</span>
+<span class="token operator">-</span> <span class="token number">0</span>
+<span class="token operator">+</span> <span class="token number">9</span>
+s <span class="token number">0</span> <span class="token number">9</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>Output:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike">Not found
+Found
+<span class="token number">3</span>
+Found
+Not found
+<span class="token number">1</span>
+Not found
+<span class="token number">10</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>Explanation:<br>For the first 5 queries, 𝑥 = 0. For the next 5 
+queries, 𝑥 = 3. For the next 5 queries, 𝑥 = 1. The actual list of 
+operations is:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike"><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> → <span class="token number">3</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> → Found
+<span class="token function">del</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> → Not found
+<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> → <span class="token number">1</span>
+<span class="token function">del</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token function">find</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> → Not found
+<span class="token function">del</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span> → <span class="token number">10</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<p><em>Sample 2</em><br>Input:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike"><span class="token number">5</span>
+<span class="token operator">?</span> <span class="token number">0</span>
+<span class="token operator">+</span> <span class="token number">0</span>
+<span class="token operator">?</span> <span class="token number">0</span>
+<span class="token operator">-</span> <span class="token number">0</span>
+<span class="token operator">?</span> <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>Output:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike">Not found
+Found
+Not found<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div>
+
+<p><em>Sample 3</em><br>Input:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike"><span class="token number">5</span>
+<span class="token operator">+</span> <span class="token number">491572259</span>
+<span class="token operator">?</span> <span class="token number">491572259</span>
+<span class="token operator">?</span> <span class="token number">899375874</span>
+s <span class="token number">310971296</span> <span class="token number">877523306</span>
+<span class="token operator">+</span> <span class="token number">352411209</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<p>Output:</p>
+<div class="code-area" style="position: relative"><i class="fas fa-angle-up code-expand" aria-hidden="true"></i><div class="codecopy_notice"></div><i class="fas fa-copy code_copy" title="复制代码" aria-hidden="true"></i><div class="code_lang" title="代码语言">clike</div><pre class="line-numbers language-clike" data-language="clike"><code class="language-clike">Found
+Not found
+<span class="token number">491572259</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div>
+
+                
+            </div>
+            <hr>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://chujiechen.github.io/about" rel="external nofollow noreferrer">Black Vinegar</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://chujiechen.github.io/2020/09/12/set-with-range-sums-using-splay-tree/">https://chujiechen.github.io/2020/09/12/set-with-range-sums-using-splay-tree/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="https://chujiechen.github.io/about" target="_blank">Black Vinegar</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async="" defer="defer">
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="https://chujiechen.github.io/tags/Algorithm/">
+                                    <span class="chip bg-color">Algorithm</span>
+                                </a>
+                            
+                                <a href="https://chujiechen.github.io/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share share-component" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="&lt;p&gt;微信扫一扫即可分享！&lt;/p&gt;"><a class="social-share-icon icon-twitter" href="https://twitter.com/intent/tweet?text=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;via=https%3A%2F%2Fchujiechen.github.io" target="_blank"></a><a class="social-share-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F" target="_blank"></a><a class="social-share-icon icon-google" href="https://plus.google.com/share?url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F" target="_blank"></a><a class="social-share-icon icon-qq" href="http://connect.qq.com/widget/shareqq/index.html?url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;title=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;source=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;desc=&amp;pics=https%3A%2F%2Fchujiechen.github.io%2Fmedias%2Flogo.png&amp;summary=%22%22" target="_blank"></a><a class="social-share-icon icon-qzone" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;title=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;desc=&amp;summary=&amp;site=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;pics=https%3A%2F%2Fchujiechen.github.io%2Fmedias%2Flogo.png" target="_blank"></a><a class="social-share-icon icon-wechat" href="javascript:"><div class="wechat-qrcode"><h4>微信扫一扫：分享</h4><div class="qrcode" title="https://chujiechen.github.io/2020/09/12/set-with-range-sums-using-splay-tree/"><canvas style="display: none;" width="100" height="100"></canvas><img alt="Scan me!" style="display: block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAH8klEQVR4Xu2d4XbbOgyDm/d/6C5261ZWSH6ArHRrpnvOfqyOJZkgAZDxem9vb2/v9z/2f+/vH7fdbrfTvf3Pj7/TBsc67uejdWmNfq9s7/7Zjr369bP16Jmj61s0FyCfSZUFug/cjwBCWXUcys2urGKyyur3ybIsq9Dt827AqrWcLL/KDjvjHBWyAHmkXweMNhGu0O8DIMSbaoWomd7zcrY/8XcVEFXnrj6bygbVMy9AGop7CUBIW7LMzuiAHI9Kra0DJI3I1lR1ztWsp1bIAsQ3ET8CiAsMaUVmNZ37yPWoFEWV0p9V7Uuiyr2sIe5hiD5GbK56j0ot1I8QbU4FhKweZRVlsPqwV7REDQg5N/WslJRqTJ/ShyxAvvsZqqSoNZg2OiEP/uzrSh/y7DOM0nFbQQuQbVzRzbJm/Z2oKrp+u6M6NFzMOnF1OdW5UHDCh+om0CT6pAF0BndUUgG1AAmi4wLwVEBGZ1mqYyH3NFLmdA9xu3o9qyR1/4xVThrSU9YC5DG86mhFpcbKiV6mLNKS0UmryutREEjHiJIo47PrZPl7FonYYgESuKy/Csh989BlqbxKbokEb/R6mF2Ju3oW5bizMklDFiBcD1dnYDSCKUWdUMwqh7Jw9KH681RZqTo4V2MYsvMnyBhVMU41hBYlqsoC6QT4lDnQTW+ffQlADspSM1x1EoqjaIPYZyGVeaVxxO2zMl61uZljjO7Ht07cUXYWWDV7eyCz8n5ZQNTG0M14ynACjq4rgFAluA5P7V/U5ItY6UFDiJKIDtTDUMDp+n8HCPUhFLAZ1LOtoSZAex73HrWaKSbk3rKKbYsgrRDafAHyGN6pgLh8SvxM18lWu7a5sr20lnud3BUZobKXOkR9AcLfhY/qqzpg3ZMqc1nEqzPKs9UIhV8VTWnXoSqk5pYAyGg7qzg6zwIk+cdGWe9DNKyOhyogsUIoi2bxb+bK1PVbDXEdnprRVwOuxHIB0qSrKsYqgH1iSIDcb9q/D1GnuK74u42ieo6IPtS9XP2jZyb9y1xVpCn4bi+VaX8Yd7yQ8amSTbR3pgX/NCBkeynr6OEIIJcmMhDan6ud+ujnVL1TXdjJGS5A+HsUl0YVexuZkJPtVXmSKkbNCjU7yTG1FUrV6Di2U9bCd/VulVf9zZfLWoDkXQZl/FRADpeVH+fjCmmFm30k2u716Px0ZnUPWkc1D0rSy2+/u4eiz6vBIMqqEmnWGWidqYD0ot4HwJ3nqJVG2ZIB5pyH5nF0VkqGWV9RlC5rAfIIE/ViapIoAD5Q1iyLN+rVs4QgV1a5IvWZXJdGjpJ0tezUqTIyHqXsuHqfGqSXASRrDInDKevIKlL2ZEJZJY5TRds6lEyZxqgUplBU72DTPmQBkkv+AiSITZR9L1EhW89XNX6qPXWDkVGWu1+Ux2p1u/3DVZ0lmt9pdAGS/95IAoyaW0q6yInKGpIz6scVtUJUse/3GxFgletd8aZY0HpDw0U3AAsQhklxXQ8VovKkWq5kb69WTDR+j6igDZc7naVQq5pF++4a4s6yFGGqhFadL9FALxJ/NUkoMLQ30WnGFrTvSdQpC+i6ytdEbVQxVdBdmiU26J959BmzfaLklsfvCxD9V/kRi1SVIr+XRTMpl4qyfsPl4ypRVOoge0rPnmnWSE+1AGkQdQeZpFlDgGwtRNRHEEWpTibjYTosCadyPrVqr/QNbexUR1nZX3xRjh5cLWcSNtpnRLB/JSC97R3l3dEsU5qldu3KkhLlkINzq5Ls8ch5cHQyalNVS7kAOadBOlwkt0Pa4Hr4LDsdSnTtZlbV1MBdTdIqNguQAJW/CsihIZSh1DdQ1lA2uhTXOxrH7ZAbitaOdIycIl2PYoK/fIYCTcLluifSlMo50WiDkk4VdYqJCngIyP2H5a+JVa2j6jhc+0uAt1qnakh/hqwiKDncdRTAcZa1AOG3UyhGjjFByiI3pdKEO2Ygzcqyc/u5y910NqI61ZEqsVqANABWILeguC6MqK0FCl9yIN5TtYM+R+KvurTIbWUiq1ahyxLk0jId3av7EHU1YFfLezTwC5DPCKj8SOX+E3MkN+PVJCQbS4NPRTu+9qAKWYB816YLuKMdX4Bk017SDnUzFdCrPUQkurO4nzLcrZBKY+R/9KlSzlUH4gIYaQudlWwx6SQ9Y5YISpKnrwGRJhCvZlmgjh2Uw48aBDXj3YaPgKL1dpfVU5aK7gJEfwuF6P1Et4eoq0ColKJWmFpJo9VQ3adkbHu/OtvK9lTYIZ1lqfMXOqRqLV2gZwD0TwJyUNboA6qBJGBIaFWK3HnY/E1xpClqFVMSUwxOGrIA+Y6A2m8oFNQmiARIpiEEEGWVmvGUfXTd+T5EXYueLXOAGUAqi+zgLUD4HxtRcmV21212T4Ao5VSV36gHp32pyYsqmSiHjIhjUyMXRhWUVeoCBP6PoKMubCoglJFUCVl2VVmxXRspb9K5/iwzqUXdO6qgigLld3tVwVqA5FApruxpgPTHIkBdLYk+T+KbUYmrGaRBdD2r3FBDZlHWAkR/W6WN+bQKoXJUs1f9bqH6nFqN6l6jIk39TLT/AqRQZ3cUoo5sKkobfsnBtYTkeEZci3rPKA1ThquaROxQUhY9JDVddD9RG90/cv1XAuI+qOqKyHG4laZ8nvYkw5HFwn1mqqBon2mzLBI+ylJqHB1rugAJoB7t6F3nE33+NwPyB/bHVmoZwIj3AAAAAElFTkSuQmCC"></div><div class="help"><p>微信扫一扫即可分享！</p></div></div></a><a class="social-share-icon icon-weibo" href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;title=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;pic=https%3A%2F%2Fchujiechen.github.io%2Fmedias%2Flogo.png&amp;appkey=" target="_blank"></a><a class="social-share-icon icon-douban" href="http://shuo.douban.com/!service/share?href=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;name=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;text=&amp;image=https%3A%2F%2Fchujiechen.github.io%2Fmedias%2Flogo.png&amp;starid=0&amp;aid=0&amp;style=11" target="_blank"></a><a class="social-share-icon icon-linkedin" href="http://www.linkedin.com/shareArticle?mini=true&amp;ro=true&amp;title=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;url=https%3A%2F%2Fchujiechen.github.io%2F2020%2F09%2F12%2Fset-with-range-sums-using-splay-tree%2F&amp;summary=&amp;source=Set%20with%20Range%20Sums%20using%20Splay%20Tree%20%7C%20Black%20Vinegar&amp;armin=armin" target="_blank"></a></div>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal" tabindex="0">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay" class="active">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    <li class="indicator" style="left: 0px; right: 0px;"></li></ul>
+                    <div id="alipay" class="active">
+                        <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat" style="display: none;">
+                        <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/gitalk.css">
+<link rel="stylesheet" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/my-gitalk.css">
+
+<div class="card gitalk-card aos-init" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"><div class="gt-container"><div class="gt-meta"><span class="gt-counts"><a class="gt-link gt-link-counts" href="https://github.com/ChujieChen/ChujieChen.github.io/issues/5" target="_blank">0</a> comments</span><div class="gt-user"><div class="gt-user-inner"><span class="gt-user-name">Anonymous</span><span class="gt-ico gt-ico-arrdown"><span class="gt-svg"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" p-id="1619"><path d="M511.872 676.8c-0.003 0-0.006 0-0.008 0-9.137 0-17.379-3.829-23.21-9.97l-251.277-265.614c-5.415-5.72-8.743-13.464-8.744-21.984 0-17.678 14.33-32.008 32.008-32.008 9.157 0 17.416 3.845 23.25 10.009l228.045 241.103 228.224-241.088c5.855-6.165 14.113-10.001 23.266-10.001 8.516 0 16.256 3.32 21.998 8.736 12.784 12.145 13.36 32.434 1.264 45.233l-251.52 265.6c-5.844 6.155-14.086 9.984-23.223 9.984-0.025 0-0.051 0-0.076 0z" p-id="1620"></path></svg></span></span></div></div></div><div class="gt-header"><a class="gt-avatar-github"><span class="gt-ico gt-ico-github"><span class="gt-svg"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64 524C64 719.602 189.356 885.926 364.113 947.017 387.65799 953 384 936.115 384 924.767L384 847.107C248.118 863.007 242.674 773.052 233.5 758.001 215 726.501 171.5 718.501 184.5 703.501 215.5 687.501 247 707.501 283.5 761.501 309.956 800.642 361.366 794.075 387.658 787.497 393.403 763.997 405.637 743.042 422.353 726.638 281.774 701.609 223 615.67 223 513.5 223 464.053 239.322 418.406 271.465 381.627 251.142 320.928 273.421 269.19 276.337 261.415 334.458 256.131 394.888 302.993 399.549 306.685 432.663 297.835 470.341 293 512.5 293 554.924 293 592.81 297.896 626.075 306.853 637.426 298.219 693.46 258.054 747.5 262.966 750.382 270.652 772.185 321.292 753.058 381.083 785.516 417.956 802 463.809 802 513.5 802 615.874 742.99 701.953 601.803 726.786 625.381 750.003 640 782.295 640 818.008L640 930.653C640.752 939.626 640 948.664978 655.086 948.665 832.344 888.962 960 721.389 960 524 960 276.576 759.424 76 512 76 264.577 76 64 276.576 64 524Z"></path>
+</svg>
+</span></span></a><div class="gt-header-comment"><textarea class="gt-header-textarea " placeholder="Leave a comment" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 72px;"></textarea><div class="gt-header-preview markdown-body hide"></div><div class="gt-header-controls"><a class="gt-header-controls-tip" href="https://guides.github.com/features/mastering-markdown/" target="_blank"><span class="gt-ico gt-ico-tip"><span class="gt-svg"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 366.949535c-16.065554 0-29.982212 13.405016-29.982212 29.879884l0 359.070251c0 16.167882 13.405016 29.879884 29.982212 29.879884 15.963226 0 29.879884-13.405016 29.879884-29.879884L541.879884 396.829419C541.879884 380.763865 528.474868 366.949535 512 366.949535L512 366.949535z" p-id="3083"></path>
+  <path d="M482.017788 287.645048c0-7.776956 3.274508-15.553912 8.80024-21.181973 5.525732-5.525732 13.302688-8.80024 21.181973-8.80024 7.776956 0 15.553912 3.274508 21.079644 8.80024 5.525732 5.62806 8.80024 13.405016 8.80024 21.181973 0 7.776956-3.274508 15.656241-8.80024 21.181973-5.525732 5.525732-13.405016 8.697911-21.079644 8.697911-7.879285 0-15.656241-3.274508-21.181973-8.697911C485.292295 303.301289 482.017788 295.524333 482.017788 287.645048L482.017788 287.645048z" p-id="3084"></path>
+  <path d="M512 946.844409c-239.8577 0-434.895573-195.037873-434.895573-434.895573 0-239.8577 195.037873-434.895573 434.895573-434.895573 239.755371 0 434.895573 195.037873 434.895573 434.895573C946.895573 751.806535 751.755371 946.844409 512 946.844409zM512 126.17088c-212.740682 0-385.880284 173.037274-385.880284 385.777955 0 212.740682 173.037274 385.777955 385.880284 385.777955 212.740682 0 385.777955-173.037274 385.777955-385.777955C897.777955 299.208154 724.740682 126.17088 512 126.17088z" p-id="3085"></path>
+</svg>
+</span><span class="gt-ico-text">Markdown is supported</span></span></a><button class="gt-btn gt-btn-preview"><span class="gt-btn-text">Preview</span></button><button class="gt-btn gt-btn-login"><span class="gt-btn-text">Login with GitHub</span></button></div></div></div><div class="gt-comments"><div style="position: relative;"></div><p class="gt-comments-null">Be the first person to leave a comment!</p></div></div></div>
+</div>
+
+<script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'cae4b99af1dce7f35f85',
+        clientSecret: '0ac57778e24a9ac07903c060a5b572b0cd3082bb',
+        repo: 'chujiechen.github.io',
+        owner: 'ChujieChen',
+        admin: ["ChujieChen"],
+        id: '2020-09-12T20-33-53',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles" style="width: 913.5px;">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6 aos-init" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="https://chujiechen.github.io/2020/11/22/a-matrix-factorization-based-recommendation-system/">
+                    <div class="card-image">
+                        
+                        <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/0%203C6CUn1FEC_raM8c.jpg" class="responsive-img" alt="A Matrix-Factorization-Based Recommendation System">
+                        
+                        <span class="card-title">A Matrix-Factorization-Based Recommendation System</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            A simple matrix-factorization-based recommender using gradient descent.
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-22
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="https://chujiechen.github.io/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="https://chujiechen.github.io/tags/Machine-learning/">
+                        <span class="chip bg-color">Machine learning</span>
+                    </a>
+                    
+                    <a href="https://chujiechen.github.io/tags/Matlab/">
+                        <span class="chip bg-color">Matlab</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 aos-init" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="https://chujiechen.github.io/2020/09/01/a-glance-at-state-hooks-in-react/">
+                    <div class="card-image">
+                        
+                        <img src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/1%20kEPCQNY4dwVyaFuLEwJcNQ.png" class="responsive-img" alt="A Glance at State Hooks in React">
+                        
+                        <span class="card-title">A Glance at State Hooks in React</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            A brief example using React state hooks
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="https://chujiechen.github.io/categories/Front-End/" class="post-category">
+                                    Front End
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="https://chujiechen.github.io/tags/React-js/">
+                        <span class="chip bg-color">React.js</span>
+                    </a>
+                    
+                    <a href="https://chujiechen.github.io/tags/Web-Development/">
+                        <span class="chip bg-color">Web Development</span>
+                    </a>
+                    
+                    <a href="https://chujiechen.github.io/tags/JavaScript/">
+                        <span class="chip bg-color">JavaScript</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card toc-fixed" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"><ol class="toc-list "><li class="toc-list-item"><a href="#toc-heading-1" class="toc-link node-name--H2 ">Set with Range Sums</a><ol class="toc-list  is-collapsible is-collapsed"><li class="toc-list-item"><a href="#toc-heading-2" class="toc-link node-name--H3 ">Description</a></li><li class="toc-list-item"><a href="#toc-heading-3" class="toc-link node-name--H3 ">Thoughts</a></li></ol></li><li class="toc-list-item"><a href="#toc-heading-4" class="toc-link node-name--H2 ">Let’s Code!</a><ol class="toc-list  is-collapsible"><li class="toc-list-item"><a href="#toc-heading-5" class="toc-link node-name--H3 ">Skeleton</a></li><li class="toc-list-item"><a href="#toc-heading-6" class="toc-link node-name--H3 ">Basic operations</a></li><li class="toc-list-item is-active-li"><a href="#toc-heading-7" class="toc-link node-name--H3  is-active-link">Range sum</a></li><li class="toc-list-item"><a href="#toc-heading-8" class="toc-link node-name--H3 ">Examples</a></li></ol></li></ol></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12" server="netease" type="playlist" id="503838841" fixed="true" autoplay="false" theme="#42b983" loop="all" order="random" preload="auto" volume="0.7" list-folded="true">
+        </meting-js>
+    </div>
+</div>
+
+<script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/APlayer.min.js"></script>
+<script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;©
+            
+                <span id="year">2020-2021</span>
+            
+            <span id="year">2020</span>
+            <a href="https://chujiechen.github.io/about" target="_blank">Chujie Chen</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display: inline;">
+            <!-- 总访问量-->
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;Total Visits:&nbsp;<span id="busuanzi_value_site_pv" class="white-color">1792</span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display: inline;">
+            <!-- 总访问人数-->
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;Total Visitors:&nbsp;<span id="busuanzi_value_site_uv" class="white-color">1194</span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/ChujieChen" class="tooltipped" target="_blank" data-tooltip="Visit My GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="https://www.linkedin.com/in/chenchujie/" class="tooltipped" target="_blank" data-tooltip="Connect on Linkedin" data-position="top" data-delay="50">
+        <i class="fab fa-linkedin"></i>
+    </a>
+
+
+
+    <a href="mailto:chen8chu8jie6@gmail.com" class="tooltipped" target="_blank" data-tooltip="Email Me" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="https://chujiechen.github.io/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS Feed" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar" style="width: 80.376%;"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal" tabindex="0">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword" class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll" style="display: block;">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/materialize.min.js"></script>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/masonry.pkgd.min.js"></script>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/aos.js"></script>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/scrollProgress.min.js"></script>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/lightgallery-all.min.js"></script>
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/clicklove.js" async="async"></script>
+    
+    
+    <script async="" src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+
+    
+    <script src="Set%20with%20Range%20Sums%20using%20Splay%20Tree%20Black%20Vinegar_files/instantpage.js" type="module"></script>
+    
+
+
+
+
+<div class="sidenav-overlay"></div><div class="drag-target"></div><div class="material-tooltip"><div class="tooltip-content"></div></div><div class="material-tooltip"><div class="tooltip-content"></div></div><div class="material-tooltip"><div class="tooltip-content"></div></div><div class="material-tooltip"><div class="tooltip-content"></div></div></body></html>
