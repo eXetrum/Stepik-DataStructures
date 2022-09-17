@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>Rope: the Data Structure used by text editors to handle large strings</title>
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  
+  <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=ca8e56af41" /> 
+  <!-- for progress in navigation bar -->
+  <link rel="stylesheet" type="text/css" href="/assets/built/lightbox.css?v=ca8e56af41" />
+  <!-- for syntax highlight -->
+  <link rel="stylesheet" type="text/css" href="/assets/built/prism.css?v=ca8e56af41" />
+  <!-- merge2.css -> complexity.css + post_page.css -->
+  <link rel="stylesheet" type="text/css" href="/assets/built/merge2.css?v=ca8e56af41" />
+
+  <!-- table of contents disabled -->
+  <!--
+  <link rel="stylesheet" type="text/css" href="/assets/css/head_tab.css?v=ca8e56af41" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/tab.css?v=ca8e56af41" />
+  -->
+  <!-- course page is not activated -->
+  <!--
+  <link rel="stylesheet" type="text/css" href="/assets/css/course_page.css?v=ca8e56af41" />
+  -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/search_page.css?v=ca8e56af41" />
+  <!--
+  <link rel="stylesheet" type="text/css" href="/assets/css/navbar.css?v=ca8e56af41" /> -->
+  <style>
+    a {
+      text-decoration: none !important;
+    }
+
+    #time {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #scrollBtn {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 36px;
+      z-index: 999;
+      border: none;
+      outline: none;
+      background-color: #351ed478;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 50px;
+      width: 45px;
+    }
+
+    #scrollBtn:hover {
+      background-color: #351ed4;
+    }
+
+    @media (max-width: 480px) {
+      #scrollBtn {
+        right: 18px;
+        bottom: 80px;
+        transform: scale(0.9);
+      }
+    }
+  </style>
+
+  <meta name="description" content="Rope data structure is widely used by software such as text editors like Sublime, email systems like Gmail and text buffers to handle large strings efficiently." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://iq.opengenus.org/rope-data-structure/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://iq.opengenus.org/rope-data-structure/amp/" />
+    
+    <meta property="og:site_name" content="OpenGenus IQ: Computing Expertise &amp; Legacy" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Rope: the Data Structure used by text editors to handle large strings" />
+    <meta property="og:description" content="Rope data structure is widely used by software such as text editors like Sublime, email systems like Gmail and text buffers to handle large strings efficiently." />
+    <meta property="og:url" content="https://iq.opengenus.org/rope-data-structure/" />
+    <meta property="article:published_time" content="2019-08-24T13:53:35.000Z" />
+    <meta property="article:modified_time" content="2019-08-27T11:47:15.000Z" />
+    <meta property="article:tag" content="Data Structures" />
+    <meta property="article:tag" content="tree data structure" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/opengenus" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Rope: the Data Structure used by text editors to handle large strings" />
+    <meta name="twitter:description" content="Rope data structure is widely used by software such as text editors like Sublime, email systems like Gmail and text buffers to handle large strings efficiently." />
+    <meta name="twitter:url" content="https://iq.opengenus.org/rope-data-structure/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Ishmeet Singh Kalra" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Data Structures, tree data structure" />
+    <meta name="twitter:site" content="@OpenGenus" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "OpenGenus IQ: Computing Expertise &amp; Legacy",
+        "logo": "https://iq.opengenus.org/content/images/2018/02/ll.jpeg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Ishmeet Singh Kalra",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://iq.opengenus.org/content/images/2019/10/ishmeet.jpg",
+            "width": 200,
+            "height": 200
+        },
+        "url": "https://iq.opengenus.org/author/ishmeet/",
+        "sameAs": [
+            "https://www.linkedin.com/in/ishmeet-kalra-40480016b/"
+        ]
+    },
+    "headline": "Rope: the Data Structure used by text editors to handle large strings",
+    "url": "https://iq.opengenus.org/rope-data-structure/",
+    "datePublished": "2019-08-24T13:53:35.000Z",
+    "dateModified": "2019-08-27T11:47:15.000Z",
+    "keywords": "Data Structures, tree data structure",
+    "description": "Rope data structure is widely used by software such as text editors like Sublime, email systems like Gmail and text buffers to handle large strings efficiently.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://iq.opengenus.org/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=ca8e56af41"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "06875a67cb74"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25" />
+    <link rel="alternate" type="application/rss+xml" title="OpenGenus IQ: Computing Expertise &amp; Legacy" href="https://iq.opengenus.org/rss/" />
+    <script data-ad-client="ca-pub-6329206778297580" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6329206778297580" crossorigin="anonymous"></script>
+
+<script type="application/javascript" src="https://sdki.truepush.com/sdk/v2.0.2/app.js" async></script>
+<script>
+    var truepush = window.truepush || [];
+
+    truepush.push(function(){
+        truepush.Init({
+            id: "5eeb87cefb2b695cf40c7968"
+        },function(error){
+            if(error) console.error(error);
+        })
+    })
+</script>
+
+</head>
+<div id="nav_toggle" class="navbar_collapse navigation_page">
+  <div id="navbar_close">&times</div>
+  <a href="http://iq.opengenus.org">Home</a>
+  <a href="http://discourse.opengenus.org">Discussions</a>
+  <a href="http://iq.opengenus.org/guide-to-writing-a-note-at-opengenus-iq/">Write at Opengenus IQ</a>
+</div>
+
+<body class="post-template tag-data-structure tag-tree-data-structure">
+
+  <div id="search_page" class="search_page search_page_hide">
+    <div class="search_page_close search_toggle">&times</div>
+    <div class="search_page_body">
+      <div id="site-search" style="display:none;" class="search_form">
+        <input class="typeahead search_form_input" type="text" placeholder="Search" />
+      </div>
+    </div>
+  </div>
+  <div class="site-wrapper">
+
+    
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="navbar">
+  <div class="burger_menu">
+    <label for="burgertoggle" >&#9776;</label>
+    <input type="checkbox" id="burgertoggle"/>
+
+  </div>
+
+
+
+
+ <div class="navbar-left">
+            <ul class="nav" role="menu">
+    <li class="nav-track-your-progress" role="menuitem"><a href="https://iq.opengenus.org/100-interview-problems/">Track your progress</a></li>
+    <li class="nav-random" role="menuitem"><a href="https://iq.opengenus.org/random/">RANDOM</a></li>
+    <li class="nav-join-our-internship-" role="menuitem"><a href="https://discourse.opengenus.org/t/internship-guidelines-at-opengenus/2335/">Join our Internship 🎓</a></li>
+    <li class="nav-100-graph-algorithms" role="menuitem"><a href="https://iq.opengenus.org/list-of-graph-algorithms/">100+ Graph Algorithms</a></li>
+    <li class="nav-100-dp-problems" role="menuitem"><a href="https://iq.opengenus.org/list-of-dynamic-programming-problems/">100+ DP Problems</a></li>
+    <li class="nav-50-linked-list-problems" role="menuitem"><a href="https://iq.opengenus.org/list-of-linked-list-problems/">50+ Linked List Problems</a></li>
+    <li class="nav-50-array-problems" role="menuitem"><a href="https://iq.opengenus.org/list-of-array-problems/">50+ Array Problems</a></li>
+    <li class="nav-one-liner" role="menuitem"><a href="https://iq.opengenus.org/one/">One Liner</a></li>
+    <li class="nav-50-binary-tree-problems" role="menuitem"><a href="https://iq.opengenus.org/list-of-binary-tree-problems/">50+ Binary Tree problems</a></li>
+    <li class="nav-7daysofcode" role="menuitem"><a href="https://www.amazon.com/days-Dynamic-Programming-7daysOfAlgo-Book-ebook/dp/B08GKXDWQW/">#7daysOfCode</a></li>
+    <li class="nav-linux-" role="menuitem"><a href="https://www.amazon.com/dp/B08FCYKGZY/">Linux 💽</a></li>
+    <li class="nav--data-structures" role="menuitem"><a href="https://www.amazon.com/dp/B08F2TDC7R/">🔊 Data Structures</a></li>
+    <li class="nav-graph-algorithms" role="menuitem"><a href="https://www.amazon.com/dp/B089SB5YCX">Graph Algorithms</a></li>
+    <li class="nav-dynamic-programming-" role="menuitem"><a href="https://www.amazon.com/gp/product/B087SV4WYJ/">Dynamic Programming 💑</a></li>
+    <li class="nav-home" role="menuitem"><a href="https://iq.opengenus.org/">Home</a></li>
+</ul>
+
+
+    </div>
+
+    <div class="navbar-right">
+      <!--  <div class="social-links"> -->
+          <a class="search_button">
+            <i class="fa fa-search search_toggle" style="cursor:pointer;"></i>
+          </a>
+        <!--    
+                <a class="social-link social-link-fb" href="https://www.facebook.com/opengenus" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+</a>
+                <a class="social-link social-link-tw" href="https://twitter.com/OpenGenus" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+        </div>
+    <      -->
+            <a class="rss-button" href="https://feedly.com/i/subscription/feed/https://iq.opengenus.org/rss/" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+      <!--   -->
+    </div>
+
+</nav>
+  </div>
+</header>
+
+<style>
+.w3-modal {
+    padding-top: 100px;
+    position: fixed;
+    display: none;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+.w3-modal-content {
+    margin: auto;
+    background-color: #fff;
+    position: relative;
+    width: 80%;
+}
+.w3-container{
+    padding: 0.01em 16px;
+}
+.w3-button {
+    position: absolute;
+    right: 0;
+    padding-right: 2.5%;
+    top: 0;
+    background: rgb(255, 255, 255);
+    padding-top: 2.5%;
+}
+
+@media screen and (min-width: 600px) {
+  .w3-modal-content {
+       width: 70%;
+}
+
+@media screen and (min-width: 800px) {
+  .w3-modal-content {
+       width: 60%;
+}
+}
+
+.gssb_c .gsc-completion-container{
+  position: fixed;
+  width: fit-content !important;
+}
+</style>
+
+<script async src="https://cse.google.com/cse.js?cx=a08efacafd37fe86c"></script>
+
+<div id="id01" class="w3-modal" style="z-index: 500; max-width: 0em 3em;">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <button onclick="document.getElementById('id01').style.display='none'"
+      class="w3-button">&times;</button>
+      <br>
+      <p style="font-size:1.5vw;">Search anything:</p>
+      <div class="gcse-search"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openmodal() {
+    document.getElementById('id01').style.display='block';
+      document.getElementById("gsc-i-id1").focus();
+  }
+</script> <style>
+/* left-side-bar styling. */
+.left-side-bar-wrapper {
+  position: relative;
+  min-width: 180px;
+    width: 20%;
+}
+.left-side-bar-top {
+  border-right: 1px solid #f2f3f4;
+  width: 100%;
+  transition: all 0.2s ease-in;
+  margin-bottom: 1rem;
+  height: 230px;
+}
+.top-side-bar-links {
+  height: 180px;
+  overflow: auto;
+}
+.top-left #show-all:checked ~ .top-side-bar-links .left-side-bar-link {
+  display: list-item;
+}
+.top-left #show-all ~ label[for="show-all"] {
+  display: none;
+}
+.top-left {
+  position: relative;
+}
+.top-left #show-all {
+  display: none;
+}
+.top-left label[for="show-all"] {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  bottom: 0;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1em;
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #444;
+}
+.top-left label[for="show-all"]:hover {
+  border: 1px solid #aaa;
+}
+.top-left label[for="show-all"]:active {
+  border: 1px solid #222;
+  background-color: #222;
+  color: #fff;
+}
+
+.second-left {
+  position: relative;
+  z-index: 99;
+}
+.left-side-bar {
+  border-right: 1px solid #f2f3f4;
+  height: calc(100vh - 45px);
+  overflow-y: auto;
+  list-style: none;
+  transition: all 0.2s ease-in;
+  background-color: #fff;
+}
+.left-side-bar-link a {
+  font-size: 14px;
+}
+.left-side-bar-link a:hover {
+  color: var(--blue);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.main-posts {
+  display: flex;
+}
+.main-posts.fix-bottom .left-side-bar,
+.main-posts.fix-top .left-side-bar {
+  position: fixed;
+  top: 60px;
+}
+.main-posts.flex-bottom {
+  align-items: flex-end;
+}
+
+.left-side-bar-wrapper .tag-title {
+  background-color: #000;
+  padding: 1rem;
+}
+.side-bar-tag-name {
+  color: #fff;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* right-side-bar styling */
+.right-side-bar {
+  max-width: 300px;
+  width: 100%;
+}
+
+.right-side-bar-article {
+  background-color: #fff;
+  margin: 1rem 0;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+.right-side-bar-article-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 90%;
+  left: -40px;
+  padding-left: 5px;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.right-side-bar-article-content {
+  padding-left: 10px;
+  list-style: none;
+}
+
+.right-side-bar-article-content a:hover {
+  color: #05abe0;
+  transition: all ease 0.2s;
+}
+@media (max-width: 900px) {
+  .second-left {
+    z-index: 99;
+  }
+  .left-side-bar-top {
+    margin-bottom: 0;
+  }
+  .main-posts.fix-bottom .left-side-bar,
+  .main-posts.fix-top .left-side-bar {
+    position: fixed;
+    top: 38px;
+  }
+  .main-posts {
+    position: relative;
+  }
+}
+
+@media (max-width: 600px) {
+  .second-left {
+    z-index: 99;
+  }
+  .left-side-bar-top {
+    margin-bottom: 0;
+  }
+  .left-side-bar-wrapper {
+    display: none;
+  }
+}
+</style>
+<!-- GLOBAL MESSAGE (disabled)
+<script type="text/javascript" src="/assets/js/message.js?v=ca8e56af41"></script>
+<script type="text/javascript">
+  function generateMSG(tag) {
+    if (msg_contents['display'] == 0) {
+      var elem = document.querySelector('#global_message');
+      elem.style.display = 'none';
+      return;
+    }
+    if (msg_contents['announce'] == 0) {
+      if (tag in msg_contents) {
+        msg = msg_contents[tag];
+      } else {
+        msg = msg_contents['message'];
+      }
+    } else {
+      msg = msg_contents['global'];
+    }
+    num = Math.floor(Math.random() * msg.length);
+    msg = msg[num];
+    var text = msg['text'];
+    var link = msg['link'];
+    var msg_box = document.getElementById('global_message');
+    var a = document.getElementById('global_message_link');
+    a.href = link;
+    a.innerHTML = text;
+    msg_box.onclick = function () {
+      window.open(link, "_blank");
+    };
+  }
+</script>
+-->
+
+
+<main id="site-main" class="site-main outer" role="main">
+<div id="main-posts" class="main-posts">
+
+    <div id="left-side-bar-wrapper" class="left-side-bar-wrapper">
+  <div id="first-left" class="first-left">
+    <div id="left-side-bar-top" class="left-side-bar-top">
+      <aside id="left-side-bar-inner" class="left-side-bar-inner top-left">
+  <div class="tag-title">
+    <span class="side-bar-tag-name">
+      Interesting posts
+    </span>
+  </div>
+
+  <div class="top-side-bar-links">
+    <ul>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/best-competitive-programmers/">Top Competitive Programmers</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/unsolved-problems-in-algorithms/">Unsolved Problems in Algorithms</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/top-patent-person-in-india/">Top patent holders in India</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/get-developer-job-in-japan/">How to get Developer Job in Japan?</a></li>
+      <li class="left-side-bar-link"><a href="http://internship.opengenus.org">[INTERNSHIP]</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/most-profitable-software-patents/">STORY: Most Profitable Software Patents</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/earn-by-filing-patents/">How to earn by filing Patents?</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/richest-programmers-in-the-world/">Richest Programmers in the World</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/evolution-of-integer-multiplication/">STORY: Multiplication from 1950 to 2022</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/position-of-india-in-icpc/">Position of India at ICPC World Finals (1999 to 2021)</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/most-dangerous-line-of-code/">Most Dangerous Line of Code 💀</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/age-of-programming-languages/">Age of All Programming Languages</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/earn-money-online-as-programmer/">How to earn money online as a Programmer?</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/kolmogorov-n2-conjecture/">STORY: Kolmogorov N^2 Conjecture Disproved</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/grigori-perelman/">STORY: man who refused $1M for his discovery</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/bram-moolenaar/">STORY: Man behind VIM</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/galactic-algorithm/">STORY: Galactic algorithm</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/inventor-of-linked-list/">STORY: Inventor of Linked List</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/tag/questions/">Practice Interview Questions</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/list-of-binary-tree-problems/">List of 50+ Binary Tree Problems</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/list-of-dynamic-programming-problems/">List of 100+ Dynamic Programming Problems</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/list-of-array-problems/">List of 50+ Array Problems</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/greedy-algorithms-you-must-attempt/">11 Greedy Algorithm Problems [MUST]</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/list-of-linked-list-problems/">List of 50+ Linked List Problems</a></li>
+      <li class="left-side-bar-link"><a href="https://iq.opengenus.org/list-of-graph-algorithms/">100+ Graph Algorithms and Techniques</a></li>
+    </ul>
+    </ul>
+  </div>
+</aside>    </div>
+  </div>
+  <div class="second-left">
+    <div id="left-side-bar" class="left-side-bar">
+        <aside id="left-side-bar-inner" class="left-side-bar-inner">
+    <div class="tag-title">
+      <span class="side-bar-tag-name">
+        Data Structures
+        tutorial
+      </span>
+    </div>
+  <div class="left-side-bar-links">
+    <ul>
+
+      <!-- Sidebar Multiplex -->
+      <ins class="adsbygoogle adsense_sidebar_multiplex_1"
+           style="display:block"
+           data-ad-format="autorelaxed"
+           data-ad-client="ca-pub-6329206778297580"
+           data-ad-slot="9028710882"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+      <!-- Sidebar fixed size 120x250 -->
+      <!--
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:120px;height:250px"
+           data-ad-client="ca-pub-6329206778297580"
+           data-ad-slot="4020428451"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+      -->
+
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/binary-search-tree-with-parent-pointer/"
+              >Binary Search Tree with Parent Pointer</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/circular-doubly-linked-list/"
+              >Circular Doubly Linked List</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/tree-data-structure/"
+              >Introduction to Tree Data Structure</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/array/"
+              >Array Data Structure</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/li-chao-tree/"
+              >Li Chao Segment Tree</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/persistent-trie/"
+              >Persistent Trie</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/all-oone-data-structure/"
+              >All O&#x60;one Data Structure</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/scapegoat-tree/"
+              >Scapegoat tree</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/insert-and-product-of-last-k-elements/"
+              >Data Structure with insert and product of last K elements operations</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/design-data-structure-random-get/"
+              >Design data structure that support insert, delete and get random operations</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/design-data-structure-problems/"
+              >&quot;Design a Data Structure&quot; problems</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/array-interview-questions/"
+              >Array Interview Questions [MCQ with answers]</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/r-tree/"
+              >Basics of R Tree</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/merkle-tree/"
+              >Merkle Tree [Explained]</a></li>
+            <li class="left-side-bar-link"><a
+                target="_blank"
+                href="/cuckoo-filter/"
+              >Cuckoo filter [Explained]</a></li>
+    </ul>
+  </div>
+</aside>    </div>
+    </div>
+</div>
+  <div class="inner" id="inner">
+
+
+  <!-- Before Header -->
+  <style>
+  .adsense_widget_iq_1 { width: 320px; height: 100px; }
+  @media(min-width: 670px) { .adsense_widget_iq_1 { width: 468px; height: 60px; } }
+  @media(min-width: 1000px) { .adsense_widget_iq_1 { width: 728px; height: 90px; } }
+  </style>
+  <ins class="adsbygoogle adsense_widget_iq_1"
+       style="display:block"
+       data-ad-client="ca-pub-6329206778297580"
+       data-ad-slot="5373864615"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+    <article id="post-full" class="post-full post tag-data-structure tag-tree-data-structure featured no-image">
+
+      <header class="post-full-header">
+
+        <h1 class="post-full-title" style="color:#292929; font-size:30px ; ">Rope: the Data Structure used by text editors to handle large strings</h1>
+
+        <!--     GLOBAL MESSAGE (disabled)    -->
+        <!--
+        <div id="global_message"
+          style="cursor:pointer; background:rgb(181, 222, 250); padding-top:20px; padding-bottom:20px;">
+          <a id='global_message_link' target="_blank" style="font-color: #a0a1a1; "></a>
+          <p id="hidden" hidden>Data Structures</p>
+          <script>generateMSG(document.getElementById('hidden').innerText);</script>
+        </div>
+        -->
+        
+        <!-- Bluehost Link -->
+        <!--
+        <p style="text-align: center;"><a href="https://bluehost.sjv.io/P0jXyQ" target="_blank">Get FREE domain for 1st year and build your brand new site</a></p>
+        -->
+      
+        <!--
+        <div style="text-align: center;">
+        <a href="https://www.bluehost.com/track/openq/site" target="_blank"> <img border="0" src="https://bluehost-cdn.com/media/partner/images/openq/728x90/728x90BW.png"> </a>
+        </div>
+        -->
+
+        <div class="upper_taglist">
+          <h4 id="text" class="less">
+            <div id="taglist">
+              <a target="_blank" href="/tag/data-structure/" title="Data Structures" class="tag_item">Data Structures</a>
+              <a target="_blank" href="/tag/tree-data-structure/" title="tree data structure" class="tag_item">tree data structure</a>
+            </div>
+          </h4>
+        </div>
+        <button id="more" class="more-tags-button">More</button>
+        <button id="less" class="more-tags-button">Less</button>
+
+
+      </header>
+
+      <button id="scrollBtn" title="Go to top">Up</button>
+
+      <div class="post-content">
+      <section class="post-full-content">
+
+        <center>
+        <a href="http://internship.opengenus.org" target="_blank">
+        <picture>
+          <source media="(max-width: 530px)" srcset="/assets/images/internship-small.svg">
+          <img src="/assets/images/internship.svg" style='width:100%;' border="0" alt="Internship at OpenGenus">
+        </picture>
+        </a>
+        </center>
+
+        <!-- top (below header) multiplex -->
+        <ins class="adsbygoogle adsense_widget_iq_1"
+             style="display:block"
+             data-ad-format="autorelaxed"
+             data-ad-client="ca-pub-6329206778297580"
+             data-ad-slot="7656465295"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <p style="text-align: center;"><a href="https://amzn.to/3n4OHrJ" target="_blank">Get this book -> Problems on Array: For Interviews and Competitive Programming</a></p>
+
+        <!-- top ad (og iq) -->
+        <ins class="adsbygoogle adsense_widget_iq_1"
+             style="display:block"
+             data-ad-client="ca-pub-6329206778297580"
+             data-ad-slot="3019138753"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <div class="kg-card-markdown"><div></div>
+<p id="time">Reading time: 40 minutes | Coding time: 20 minutes </p>
+<p>A Rope data structure is a tree data structure which is used to store or manipulate large strings in a more efficient manner. It allows for operations like insertion, deletion, search and random access to be executed faster and much more efficiently in comparison to a traditional String. We will look into this data structure and its various operations and implementation.</p>
+<p>This data structure is widely used by softwares such as <strong>text editors</strong> like <strong>Sublime</strong>, email systems like <strong>Gmail</strong> and text buffers to handle large strings efficiently.</p>
+<h3 id="introduction">Introduction</h3>
+<p>A rope is a type of <strong>binary tree</strong> i.e. each node can have maximum of 2 children at the maximum, where every <strong>leaf node</strong> holds a String or a Substring and the length of the same(Also known as the <strong>&quot;weight&quot;</strong> for the corresponding leaf node) and every following parent node holds the total sum of the weights of the leaf nodes in its left subtree, which in turn is described as the weight of the said node. In a more simpler form, the weight of a node is the sum of all the leaf nodes that sprout from its immediate left child node.</p>
+<p><img src="/content/images/2019/08/basic.png" alt="basic"></p>
+<p>In this article we will understand the Rope Data Structure along with its comparison to a standard string to determine when or when not to use it, along with its advantages &amp; disadvantages. There is a wide variety of applications for the Rope, however the most common is found in text editors which handle large amounts of text.</p>
+<h3 id="ropedatastructure">Rope Data Structure</h3>
+<p>A rope is made up of nodes, arranged into a binary tree. As a tree, its starting node is marked as the <b>Root</b> and has a left &amp; right child node which further have their child nodes and those with no children are known as leaf nodes. If we take the number of levels to be h, where h=0 for the root, the maximum possible nodes in a rope can be 2<sup>(h+1)</sup>-1.</p>
+<p>Before diving into the implementation, let us compare this data structure with a string:</p>
+<h3 id="comparisonwithstring">Comparison with String</h3>
+<p><strong>Advantages</strong></p>
+<ul>
+    <li>Ropes enable much faster insertion and deletion of text in comparison to string arrays, on which the operations have a time complexity of O(n).</li>
+    <li>Ropes do not require O(n) extra memory when being operated upon, unlike arrays which require it for copying operations.</li>
+    <li>Ropes do not need large contiguous memory areas like arrays.</li>
+    <li>If the operations performed are non-destructive(i.e the altered content is preserved) it behaves as a persistent data structure allows for multiple undo levels.</li>
+    <li>Stable performance regardless of size.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+    <li>Occupies greater overall storage space in comparison to a simple string, when not being operated upon, in order to store the parent nodes. However, this trade-off reduces as the string grows.</li>
+    <li>Increased complexity of structure creates a greater risk of bugs.</li>
+    <li>Significantly slower on small strings.</li>
+</ul>
+<p>From this, we can derive that ropes are more preferable when the size of our data is large and it is to be modified on a regular basis. Strings perform better on smaller data &amp; are better when there are less operations.</p>
+<h2 id="operations">Operations</h2>
+<h2 id="searchindexi">Search(Index I)</h2>
+<p>In order to find the character at ith position, we search recursively beginning at the root node.</p>
+<p><img src="/content/images/2019/08/Find.png" alt="Find"></p>
+<p>We follow the premise that if the weight of the current node is lower than the value of i, we subtract the weight from i &amp; move right. If the weight is less than value of i we simply move left. We continue till the point we reach a leaf node.</p>
+<pre><code class="language-python">   function index(RopeNode node, integer i)
+        if node.weight &lt; i and exists(node.right) then
+            return index(node.right, i - node.weight)
+        end
+        if exists(node.left) then
+            return index(node.left, i)
+        end
+        return node.[i]string
+    end
+</code></pre>
+<p>Average case Time complexity: <code class="yellow"><strong>Θ(N)</strong></code><br>
+Average case Time complexity: <code class="yellow"><strong>Θ(log n)</strong></code></p>
+<h2 id="concatenations1s2">Concatenation(S1+S2)</h2>
+<p>A concatenation operation between 2 strings(S1 &amp; S2) is performed by creation of a new root node which has a weight equal to the sum of weights of leaf nodes in S1. This takes time if the tree is already balanced. Since, most of the rope operations need a balanced tree, it might require re-balancing after the operation.</p>
+<p><img src="/content/images/2019/08/Concat.png" alt="Concat"></p>
+<pre><code class="language-python">   function concatenation(ropenode node1, ropenode node2)
+       newrope.left = node1
+       newrope.right = node2
+       newrope.val = length(node1)
+</code></pre>
+<p>Time complexity: <code class="yellow"><strong>Θ(1)</strong></code> to concatenate strings and <code class="yellow"><strong>Θ(log N)</strong></code> to calculate weight of root.</p>
+<h2 id="spliti">Split(I)</h2>
+<p>In order to split a string at any given point i, there are 2 major cases we might encounter:</p>
+<ol>
+<li>Split point being the last character of a leaf node.</li>
+<li>Split point being a middle character of a leaf node.</li>
+</ol>
+<p>With the second case, we can reduce it to the much simpler first one by splitting the string at given point into 2 leaf nodes &amp; creating a new parent for these component strings. Follow this with subtracting the weights of the cut off parts from the parent nodes and re-balancing the tree.</p>
+<p><img src="/content/images/2019/08/Split.png" alt="Split"></p>
+<p>Time complexity: <code class="yellow"><strong>Θ(log N)</strong></code></p>
+<h2 id="insertionis">Insertion(I,S')</h2>
+<p>In order to insert a string S' between our string, at position i, we simply need to split it at the index from which to insert, and the concatenate the new string followed by the split off part of the original string. The cost of this operation is the sum of the three operations performed.</p>
+<pre><code class="language-python">   function insert(index i, string S')
+       newrope = split(i)
+       concatenation(S',newrope)
+       concatenation(rope,S')
+</code></pre>
+<p>Time complexity: <code class="yellow"><strong>Θ(log N)</strong></code></p>
+<h2 id="deletionij">Deletion(I,J)</h2>
+<p>In order to delete a part of string from the middle, split the string at provided indices from ith to i+jth character and then concatenate the strings without the remaining part.</p>
+<pre><code class="language-python">   function delete(index i, index j)
+       splitrope = split(j)
+       remove = split(i)
+       concatenation(rope,splitrope)
+</code></pre>
+<p>Time complexity: <code class="yellow"><strong>Θ(log N)</strong></code></p>
+<h2 id="reportij">Report(I,J)</h2>
+<p>In order to report the string between given points, find the node that contains the starting character and whose weight is greater than the ending index j. Then traverse the tree starting at this node and output all the characters by performing an in-order traversal operation.</p>
+<p>Time complexity: <code class="yellow"><strong>Θ(j + log N)</strong></code></p>
+<h3 id="implementation">Implementation</h3>
+<p>Implementation of a Rope from a provided string:</p>
+<pre><code class="language-python">class Rope(object):
+#Accepts a string or list of strings and forms it into a rope.
+#This is the basic implementation which forms a rope with the input data.
+#Create an object and pass the string or list as the argument to the constructor to form a rope.
+#Ex - s= Rope('abcxyz') or s = Rope(['abc','def','ghi'])
+#Simply use print on the instance of this class in order to print the entire string. Ex - print(s)
+    def __init__(self, data=''):
+	#check if the input data is string or not
+        if isinstance(data, list):
+            if len(data) == 0:
+                self.__init__()
+            elif len(data) == 1:
+                self.__init__(data[0])
+            else:
+                # Round-up division (to match rope arithmetic associativity)
+                idiv = len(data) // 2 + (len(data) % 2 &gt; 0)
+                self.left = Rope(data[:idiv])
+                self.right = Rope(data[idiv:])
+                self.data = ''
+                self.length = self.left.length + self.right.length
+        elif isinstance(data, str):
+            self.left = None
+            self.right = None
+            self.data = data
+            self.length = len(data)
+        else:
+            raise TypeError('Kindly use strings for the purpose')
+        # Word iteration
+        self.current = self
+        #checks if the tree is balanced
+        def __eq__(self, other):
+            if (self.left and self.right) and (other.left and other.right):
+                return self.left == other.left and self.right == other.right
+            elif (self.left and self.right) or (other.left and other.right):
+                return False
+            else:
+                return self.data == other.data
+        #concatenation of strings
+        #forms a new rope with other string and joins the 2 ropes 
+        #into a new rope
+        def __add__(self, other):
+            #ensure that the string being concatenated is of type string
+            if isinstance(other, str):
+                other = Rope(other)
+            r = Rope()
+            r.left = self
+            r.right = other
+            r.length = self.length + other.length
+            r.current = self
+            return r
+        #Fetch the length of string in the specified rope
+        def __len__(self):
+            if self.left and self.right:
+                return len(self.left.data) + len(self.right.data)
+            else:
+                return(len(self.data))
+        #fetch the word present at the specified index
+        def __getitem__(self, index):
+            #ensure the index specified is an integer
+            if isinstance(index, int):
+                if self.left and self.right:
+                    if index &lt; -self.right.length:
+                        subindex = index + self.right.length
+                    elif index &gt;= self.left.length:
+                        subindex = index - self.left.length
+                    else:
+                        subindex = index
+
+                    if index &lt; -self.right.length or 0 &lt;= index &lt; self.left.length:
+                        return self.left[subindex]
+                    else:
+                        return self.right[subindex]
+                else:
+                    return Rope(self.data[index])
+
+                elif isinstance(index, slice):
+                    if self.left and self.right:
+                        start = index.start
+                        if index.start is None:
+                            if index.step is None or index.step &gt; 0:
+                                head = self.left
+                            else:
+                                head = self.right
+                        elif (index.start &lt; -self.right.length or
+                                0 &lt;= index.start &lt; self.left.length):
+                            head = self.left
+                            if index.start and index.start &lt; -self.right.length:
+                                start += self.right.length
+                        else:
+                            head = self.right
+                            if index.start and index.start &gt;= self.left.length:
+                                start -= self.left.length
+                        stop = index.stop
+                        if index.step is None or index.step &gt; 0:
+                            if (index.stop is None or
+                                -self.right.length &lt;= index.stop &lt; 0 or
+                                index.stop &gt; self.left.length):
+                                tail = self.right
+                                if index.stop and index.stop &gt; self.left.length:
+                                    stop -= self.left.length
+                            else:
+                                if head == self.right:
+                                    tail = self.right
+                                    stop = 0
+                                else:
+                                    tail = self.left
+                                    if index.stop &lt; -self.right.length:
+                                        stop += self.right.length
+                        else:
+                            if (index.stop is None or
+                                    index.stop &lt; (-self.right.length - 1) or
+                                    0 &lt;= index.stop &lt; self.left.length):
+                                tail = self.left
+                                if index.stop and index.stop &lt; (-self.right.length - 1):
+                                    stop += self.right.length
+                            else:
+                                if head == self.left:
+                                    tail = self.left
+                                    stop = -1   # Or self.left.length - 1 ?
+                                else:
+                                    tail = self.right
+                                    if index.stop &gt;= self.left.length:
+                                        stop -= self.left.length
+
+                        # Construct the rope as a binary tree
+                        if head == tail:
+                            return head[start:stop:index.step]
+                        else:
+                            if not index.step:
+                                offset = None
+                            elif index.step &gt; 0:
+                                if start is None:
+                                    delta = -head.length
+                                elif start &gt;= 0:
+                                    delta = start - head.length
+                                else:
+                                    delta = max(index.start, -self.length) + tail.length
+
+                                offset = delta % index.step
+                                if offset == 0:
+                                    offset = None
+                            else:
+                                if start is None:
+                                    offset = index.step + (head.length - 1) % (-index.step)
+                                elif start &gt;= 0:
+                                    offset = index.step + min(start, head.length - 1) % (-index.step)
+                                else:
+                                    offset = index.step + (start + head.length) % (-index.step)
+
+                            if not tail[offset:stop:index.step]:
+                                return head[start::index.step]
+                            else:
+                                return head[start::index.step] + tail[offset:stop:index.step]
+                    else:
+                        return Rope(self.data[index])
+        #Report the characters present inside the rope
+        def __repr__(self):
+            if self.left and self.right:
+                return '{}{} + {}{}'.format('(' if self.left else '',
+                                        self.left.__repr__(),
+                                        self.right.__repr__(),
+                                        ')' if self.right else '')
+            else:
+                return &quot;Rope('{}')&quot;.format(self.data)
+        #Check if the current node is a leaf node and print its value
+        #otherwise iterate down a step on both sides
+        def __str__(self):
+            if self.left and self.right:
+                return self.left.__str__() + self.right.__str__()
+            else:
+                return self.data
+        #The iterator
+        def __iter__(self):
+            return self
+        #Iteration down the tree
+        def __next__(self):
+            if self.current:
+                if self.left and self.right:
+                    try:
+                        return next(self.left)
+                    except StopIteration:
+                        self.current = self.right
+                    return next(self.right)
+                else:
+                    self.current = None
+                    return self.data
+            else:
+                raise StopIteration
+
+        def next(self):
+            return self.__next__()
+
+firstRope = Rope('hello_my_name_is')
+secondRope = Rope('_rope_data_structure')
+
+#concatenate these strings
+fullRope = firstRope.__add__(secondRope)
+print(fullRope)
+#Gives result hello_my_name_is_rope_data_structure
+
+#Show the character at specified index
+print(fullRope.__getitem__(14))
+#Displays character &quot;i&quot; which is at index 14
+</code></pre>
+<h3 id="complexity">Complexity</h3>
+<ul>
+<li>Worst case time complexity: <code class="yellow"><strong>Θ(n)</strong></code></li>
+<li>Average case time complexity: <code class="yellow"><strong>Θ(log N)</strong></code></li>
+<li>Best case time complexity: <code class="yellow"><strong>Θ(log N)</strong></code></li>
+<li>Space complexity: <code class="yellow"><strong>Θ(n)</strong></code></li>
+</ul>
+<h2 id="applications">Applications</h2>
+<p>The areas where the Rope data structure is used are:</p>
+<ul>
+<li>Text Editors which handle large amounts of strings.</li>
+<li>E-mail messages which might require lot of editing.</li>
+<li>Edit buffers for handling large text.</li>
+<li>Cedar programming environment uses ropes since its inception.</li>
+</ul>
+</div>
+
+        <!-- after content multiplex -->
+        <ins class="adsbygoogle adsense_widget_iq_1"
+             style="display:block"
+             data-ad-format="autorelaxed"
+             data-ad-client="ca-pub-6329206778297580"
+             data-ad-slot="8550309798"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <!-- after content iq.opengenus.org -->
+        <ins class="adsbygoogle adsense_widget_iq_1"
+             style="display:block"
+             data-ad-client="ca-pub-6329206778297580"
+             data-ad-slot="2677909004"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+      </section>
+      </div>
+
+  </div>
+  </div>
+
+  
+  <!-- shuffle button -->
+
+  <footer>
+    <div class="post-full-footer">
+
+      <section class="author-card">
+        <img class="author-profile-image" src="/content/images/2019/10/ishmeet.jpg" alt="Ishmeet Singh Kalra" />
+
+        <section class="author-card-content">
+          <h4 class="author-card-name"><a href="/author/ishmeet/">Ishmeet Singh Kalra</a></h4>
+          <p>Intern at W3Services (2018) and OpenGenus (2019) | Bachelor of Technology (2016 to 2020) at SRM University, Chennai, Tamil Nadu | Software Developer</p>
+        </section>
+      </section>
+
+      <div class="post-full-footer-right">
+        <a class="author-card-button" href="/author/ishmeet/">Read More</a>
+      </div>
+
+
+    </div>
+
+    <!--
+    <style>
+      	.fa-heart-o {
+		  color: red;
+		  cursor: pointer;
+		}
+		.fa-heart {
+		  color: red;
+		  cursor: pointer;
+		}
+      </style>
+      <script type="text/javascript" src="https://use.fontawesome.com/0206006232.js"></script>
+      <p style="font-size:30px; text-align:center">Vote for Ishmeet Singh Kalra for <a href="https://iq.opengenus.org/vote-writer-people-choice/">Top Writers 2021</a>: 
+			<span id = heart><i class="fa fa-heart-o" aria-hidden="true" ></i> </span>
+	  </p>
+    -->
+
+
+    <div class="Authors_list">
+    <p>Improved & Reviewed by:</p><br>
+
+      <a href="/author/opengenus/" title="OpenGenus Foundation" class="author author-1 opengenus">
+        <div class="Authors_tag_item " href="/author/opengenus/" title="OpenGenus Foundation">
+          <img class="co-author-profile-image" src="/content/images/2018/06/logo_small.png" alt="OpenGenus Foundation" />
+          OpenGenus Foundation
+        </div>
+      </a>
+
+    </div>
+
+    <!-- footer tag list disabled
+    <h4>
+
+      <div class="taglabel">
+
+        <h4><i class="fa fa-tag"></i> Tags</h4>
+      </div>
+      <div class="taglist">
+
+        <a target="_blank" href="/tag/data-structure/" title="Data Structures" class="tag_item">Data Structures</a>
+        <a target="_blank" href="/tag/tree-data-structure/" title="tree data structure" class="tag_item">tree data structure</a>
+
+      </div>
+      </li>
+    </h4>
+    -->
+
+
+  </footer>
+
+  <script>
+var wrapper = document.getElementById("main-posts");
+var post_full = document.getElementById("post-full");
+var right_side_bar = document.getElementById("right-side-bar");
+var sidebar = document.getElementById("left-side-bar");
+
+window.onscroll = function () {
+  document
+    .getElementById("left-side-bar")
+    .setAttribute(
+      "style",
+      "display:block;width:" +
+        document.getElementById("left-side-bar-wrapper").offsetWidth +
+        "px"
+    );
+  document.getElementById("left-side-bar").style.width =
+    document.getElementById("left-side-bar-wrapper").offsetWidth;
+  //sidebar < main
+  if (sidebar.offsetHeight < post_full.offsetHeight) {
+    //sidebar < screen - stick to top
+    if (sidebar.offsetHeight < window.innerHeight) {
+      if (
+        wrapper.getBoundingClientRect().bottom < window.innerHeight &&
+        wrapper.getBoundingClientRect().bottom < sidebar.offsetHeight
+      ) {
+        wrapper.classList.remove("fix-top");
+        wrapper.classList.add("flex-bottom");
+      } else if (wrapper.getBoundingClientRect().top < 0) {
+        wrapper.classList.add("fix-top");
+        wrapper.classList.remove("flex-bottom");
+      } else {
+        wrapper.classList.remove("fix-top");
+        wrapper.classList.remove("flex-bottom");
+      }
+    }
+    //wrapper taller than sidebar - stick to bottom
+    else if (sidebar.offsetHeight < wrapper.offsetHeight) {
+      if (wrapper.getBoundingClientRect().bottom < window.innerHeight) {
+        wrapper.classList.remove("fix-bottom");
+        wrapper.classList.add("flex-bottom");
+      } else if (
+        wrapper.getBoundingClientRect().bottom >
+        sidebar.offsetHeight + window.innerHeight
+      ) {
+        wrapper.classList.remove("fix-bottom");
+        wrapper.classList.remove("flex-bottom");
+      } else {
+        wrapper.classList.add("fix-bottom");
+        wrapper.classList.remove("flex-bottom");
+      }
+    }
+  }
+};
+</script>
+  <!--
+  <div id='discourse-comments'></div>
+  -->
+  
+  </article>
+
+  </div>
+</main>
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">
+      <article class="read-next-card"   >
+        <header class="read-next-card-header">
+          <small class="read-next-card-header-sitetitle">&mdash; OpenGenus IQ: Computing Expertise &amp; Legacy &mdash;</small>
+          <h3 class="read-next-card-header-title"><a href="/tag/data-structure/">Data Structures</a></h3>
+        </header>
+        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+        <div class="read-next-card-content">
+          <ul>
+            <li><a href="/binary-heap/">Binary Heap</a></li>
+            <li><a href="/least-frequently-used-cache/">Design LFU (Least Frequently Used) Cache</a></li>
+            <li><a href="/separate-chaining-collision-resolution-technique/">Separate chaining collision resolution technique</a></li>
+          </ul>
+        </div>
+        <footer class="read-next-card-footer">
+          <a href="/tag/data-structure/">See all 187 posts
+            →</a>
+        </footer>
+      </article>
+
+      <article class="post-card post tag-software-engineering tag-cpp tag-standard-template-library no-image">
+    <div class="post-card-content">
+        <a class="post-card-content-link" href="/initialize-a-vector-in-cpp-stl/">
+            <header class="post-card-header">
+                    <span class="post-card-tags">Software Engineering</span>
+                <h2 class="post_card_title">Different ways to initialize a vector in C++ STL</h2>
+            </header>
+            <section class="post_card_excerpt">
+                <p>In this article, we take a look at different ways to initialize a vector in C++ Standard Template library including ways to use predefined array and vector to define a new vector.</p>
+            </section>
+        </a>
+        <footer class="post-card-meta">
+                <img class="author-profile-image" src="//www.gravatar.com/avatar/f39842f6be80ab1f8d06c0de81214fa8?s&#x3D;250&amp;d&#x3D;mm&amp;r&#x3D;x" alt="Ananya Verma" />
+            <span class="post-card-author"><a href="/author/ananya/">Ananya Verma</a></span>
+        </footer>
+    </div>
+</article>
+
+      <article class="post-card post tag-software-engineering tag-web-development tag-html no-image">
+    <div class="post-card-content">
+        <a class="post-card-content-link" href="/headings-in-html/">
+            <header class="post-card-header">
+                    <span class="post-card-tags">Software Engineering</span>
+                <h2 class="post_card_title">Understanding the use of Headings in HTML</h2>
+            </header>
+            <section class="post_card_excerpt">
+                <p>In this article, we explored the use of headings in HTML. There are 6 levels of HTML and different attributes like nowrap</p>
+            </section>
+        </a>
+        <footer class="post-card-meta">
+            <span class="post-card-author"><a href="/author/sukaran/">Sukaran Grover</a></span>
+        </footer>
+    </div>
+</article>
+
+    </div>
+  </div>
+
+</aside>
+
+
+<style>
+.searchbar {
+height: 36px;
+margin-bottom: 1em;
+margin-top: 1em;
+margin-right: 1.5em;
+}
+.searchbartext {
+height: 33px;
+font-size:  17px;
+padding-left: 4%;
+mix-blend-mode: normal;
+border: 2px solid rgb(163, 163, 163);
+background-color: #ccc;
+color: #ffffff;
+box-sizing: border-box;
+backdrop-filter: blur(4px);
+border-radius: 10px;
+} 
+input:active {
+border: none;
+}
+::placeholder{
+    color: #ffffff;
+}
+.btn-default{
+position: absolute;
+color: rgb(255, 255, 255);
+margin-left: 4.1em;
+margin-top: -1.9em;
+background: transparent;
+width: 32px;
+height: 31px;
+}
+@media screen and (max-width: 417px){
+.btn-default{
+  margin-left: 10%;
+ }
+.searchbartext {
+  width: 125%;
+ }
+}
+@media screen and (max-width: 350px){
+  .btn-default{
+  margin-left: 5%;
+ }
+ </style>
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://iq.opengenus.org">
+                <img src="/content/images/2018/02/sq_logo.png" alt="OpenGenus IQ: Computing Expertise &amp; Legacy icon" />
+            <span>OpenGenus IQ: Computing Expertise &amp; Legacy</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Rope: the Data Structure used by text editors to handle large strings</div>
+
+    <center>
+<form class="searchbar" role="search" method="get">
+  <input
+     autocomplete="off"
+     name="q"
+     placeholder="Search ..."
+    title="search here"
+    type="text"
+    id="name11"
+    onclick="openmodal();"
+ class="searchbartext"
+/>
+<button type="submit" disabled class="btn-default">
+&#x1F50D;
+</button>
+</form>
+</center>
+    <div class="floating-header-share">
+
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+            <!-- Twitter-->
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=You will love this article on Rope%3A%20the%20Data%20Structure%20used%20by%20text%20editors%20to%20handle%20large%20strings&amp;url=https://iq.opengenus.org/rope-data-structure/"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+        </a>
+            <!-- Facebook-->
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://iq.opengenus.org/rope-data-structure/"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+
+    <footer class="site-footer outer">
+      <div class="site-footer-content inner">
+        <section class="copyright"><a href="https://iq.opengenus.org">OpenGenus IQ</a> &copy; 2022 All rights
+          reserved ™ [email: <a href="mailto:team@opengenus.org">team@opengenus.org</a>]</section>
+        <nav class="site-footer-nav">
+          <a href="https://iq.opengenus.org">Top Posts</a>
+          <a href="https://www.linkedin.com/company/opengenus" target="_blank"
+            rel="noopener">LinkedIn</a>
+          <a href="https://twitter.com/OpenGenus" target="_blank" rel="noopener">Twitter</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=ca8e56af41"></script>
+
+  <!--
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="/assets/js/chatbox.js?v=ca8e56af41"></script>
+  -->
+
+  <script type="text/javascript" src="/assets/js/tab.js?v=ca8e56af41"></script>
+  <!-- for syntax highlight -->
+  <script type="text/javascript" src="/assets/js/prism.js?v=ca8e56af41"></script>
+
+  <!-- for search
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+  -->
+
+  <script>
+// ===== Scroll to Top ====
+ $(window).scroll(function() {
+    if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+        $('#scrollBtn').fadeIn(500);    // Fade in the arrow
+    } else {
+        $('#scrollBtn').fadeOut(500);   // Else fade out the arrow
+    }
+});
+$('#scrollBtn').click(function() {      // When arrow is clicked
+    $('body,html').animate({
+        scrollTop : 0                       // Scroll to top of body
+    }, 500);
+});
+
+  </script>
+
+
+  <script type="text/javascript" src="/assets/js/lightbox/lightbox.js?v=ca8e56af41"></script>
+<script>
+
+  // NOTE: Scroll performance is poor in Safari
+  // - this appears to be due to the events firing much more slowly in Safari.
+  //   Dropping the scroll event and using only a raf loop results in smoother
+  //   scrolling but continuous processing even when not scrolling
+  $(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+      lastScrollY = window.scrollY;
+      requestTick();
+    }
+
+    function onResize() {
+      lastWindowHeight = window.innerHeight;
+      lastDocumentHeight = $(document).height();
+      requestTick();
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+      }
+      ticking = true;
+    }
+
+    function update() {
+      var trigger = title.getBoundingClientRect().top + window.scrollY;
+      var triggerOffset = title.offsetHeight + 35;
+      var progressMax = lastDocumentHeight - lastWindowHeight;
+
+      // show/hide floating header
+      if (lastScrollY >= trigger + triggerOffset) {
+        header.classList.add('floating-active');
+      } else {
+        header.classList.remove('floating-active');
+      }
+
+      progressBar.setAttribute('max', progressMax);
+      progressBar.setAttribute('value', lastScrollY);
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, false);
+
+    update();
+  });
+</script>
+
+<!--
+<script type="text/javascript">
+  DiscourseEmbed = {
+    discourseUrl: 'https://discourse.opengenus.org/',
+    discourseEmbedUrl: 'http://iq.opengenus.org/rope-data-structure/'
+  };
+
+  (function () {
+    var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+    d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+  })();
+</script>
+-->
+
+<script DOCTYPE="text/javascript">
+
+  //in-page links and table of contents
+  $('.in_page_link').click(function () {
+    event.preventDefault()
+
+    //scroll to the href of the link
+    $('html, body').animate({
+      scrollTop: $($(this).attr('href')).offset().top
+    }, 500);
+    return false;
+
+  });
+
+  $(document).ready(function () {
+
+    var taglist_height = $('#taglist').height();
+    var tag_height = $('#tag_element').height();
+    var q_message = document.createElement('h6');
+
+
+    if (taglist_height >= 35) {
+      $("#more").show();
+    }
+
+    $('#more').click(function () {
+
+      $('#text').removeClass("less");
+      $("#less").show();
+      $(this).hide();
+    });
+
+    $('#less').click(function () {
+      $('#text').addClass("less");
+      $(this).hide();
+      $("#more").show();
+    });
+
+    //Add icon and colors to question answers
+    //click function will be shown if the question is answered correctly
+    $('.correct_option').click(function () {
+
+      var icon_check = '<i class="fa fa-check fadeMe" style="margin:5px;color:#33cc33;"></i>';
+      var icon_cross = '<i class="fa fa-times fadeMe" style="margin:5px;"></i>';
+
+      if ($(this).children().length < 1) {
+        $(this).siblings().children().remove();
+        $(this).siblings().prepend(icon_cross);
+        $(this).siblings().css({ "color": "coral", "border-color": "coral" });
+
+
+        $(this).addClass("correct_answer");
+        $(this).prepend(icon_check);
+        q_message.innerHTML = ("Well done, you are the best.");
+        q_message.classList.add("question_message");
+        q_message.style.color = "MediumSeaGreen";
+        $(this).parents(':eq(0)').prepend(q_message);
+
+        // Show the answer explanation
+
+        if ($(this).parent().siblings(".Answer_explanation").length >= 1) {
+          $(this).parent().siblings(".Answer_explanation").css({ "display": "block" });
+
+        }
+
+      }
+      $(this).attr('disabled', 'disabled');
+    });
+
+
+    //click function will   show the message if the question is answered incorrectly
+
+    $('.wrong_option').click(function () {
+      var icon = '<i class="fa fa-times fadeMe" style="margin:5px;"></i>';
+
+      if ($(this).children().length < 1) {
+        $(this).addClass("wrong_answer");
+
+        $(this).prepend(icon);
+        q_message.innerHTML = ("No worries, this answer is wrong, you must try again");
+        q_message.classList.add("question_message");
+        q_message.style.color = "coral";
+        $(this).parents(':eq(0)').prepend(q_message);
+      }
+
+    });
+
+  })
+
+  //shuffle question
+  function shuffle(arra1) {
+    var ctr = arra1.length, temp, index;
+
+    // While there are elements in the array
+    while (ctr > 0) {
+      // Pick a random index
+
+      index = Math.floor(Math.random() * ctr);
+      // Decrease ctr by 1
+      ctr--;
+      // And swap the last element with it
+
+      temp = arra1[ctr];
+      arra1[ctr] = arra1[index];
+      arra1[index] = temp;
+    }
+    return arra1;
+  }
+
+  //get the options
+  var questions = document.getElementsByClassName("questionlist");
+
+  // shuffle the elements , and remove options if they are more than 4
+  for (c = 0; c <= questions.length; c++) {
+
+    if(questions[c] === undefined)
+      break;
+
+    var index;
+    var ctr2 = questions[c].children.length;
+    var index;
+
+    while (ctr2 > 4) {
+      index = Math.floor(Math.random() * ctr2);
+      if (index != 0) {
+        questions[c].children[index].remove();
+
+        ctr2--;
+      }
+    }
+
+    var myArray = [1, 2, 3, 4];
+
+    shuffle(myArray);
+
+    for (i = 0; i <= 3; i++) {
+      questions[c].children[i].style.order = myArray[i];
+      questions[c].children[i].style.display = "block";
+    }
+  }
+
+</script>
+
+<style>
+a#referencelink {
+   display: block; 
+   cursor:pointer; 
+   background:rgb(181, 222, 250); 
+   padding-top:20px; 
+   padding-bottom:20px; 
+   width:100%; 
+   text-align:center; 
+   font-size: 20px; 
+   color: black;
+}
+</style>
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113523348-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-113523348-1');
+</script>
+
+<script type="text/javascript">
+var parent = document.querySelector(".kg-card-markdown p:nth-of-type(5)");
+
+if(parent)
+	parent.insertAdjacentHTML('afterend', '<!-- in between content (post+page) --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6329206778297580" data-ad-slot="4297062681" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); <\/script>');
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

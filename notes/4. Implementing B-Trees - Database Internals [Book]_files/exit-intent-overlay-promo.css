@@ -1,0 +1,38 @@
+.exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-text h2 {
+  font-size: 2.75rem;
+}
+.exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-text p {
+  font-size: 1.25rem;
+  line-height: 1.5em;
+}
+.exitIntentOverlay.exitIntentOverlay-js a.exitIntentOverlay-cta {
+  text-transform: unset;
+  background-color: #d30000;
+}
+.exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-figure {
+  display: none;
+}
+@media (min-width: 32.5625em) { /* 521px */
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-columns {
+    flex-direction: column-reverse;
+  }
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-text {
+    width: 100%;
+  }
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-figure {
+    width: 100%;
+  }
+}
+@media (min-width: 46em) { /* 736 */
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-columns {
+    flex-direction: row;
+  }
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-text {
+    width: 50%;
+  }
+  .exitIntentOverlay.exitIntentOverlay-js .exitIntentOverlay-figure {
+    display: block;
+    width: calc(50% - 20px);
+    padding: 0 40px;
+  }
+}

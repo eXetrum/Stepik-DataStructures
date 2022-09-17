@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>B+ Tree Insertion</title>
+  <link rel="stylesheet" href="JSAV.css" type="text/css">
+  <link rel="stylesheet" href="bPlusTreeInsertPRO_data/odsaAV.css" type="text/css">
+  <link rel="stylesheet" href="bPlusTreeInsertPRO_data/proficiency.css" type="text/css">
+  <link rel="stylesheet" href="bPlusTreeInsertPRO_data/ArrayTree.css" type="text/css">
+  <style>
+    .jsavtreenode .jsavarray, .jsavnode.jsavindex {
+      cursor: pointer;
+    }
+    .jsavarray {
+      white-space: nowrap;
+    }
+    .scoll-wrapper {
+      width: 100%;
+      overflow-x: scroll;
+    }
+    #stackcontainer {
+      margin: auto;
+      padding: 15px;
+    }
+    .jsavnode.ms-highlight {
+      box-shadow: 0 0 30px #55f;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="jsavcontainer" class="jsavcontainer" voice="false">
+    <a href="#" class="jsavsettings"></a>
+    <h1 class="exerciseTitle">B<sup>+</sup> Tree Insertion</h1>
+    <p class="instructLabel">Instructions:</p>
+    <p class="instructions">In this exercise your job is to insert the values from the stack to the B<sup>+</sup> tree.<br>Search
+ for the leaf node where the topmost value of the stack should be 
+inserted, and click on that node. The exercise will take care of the 
+rest. Continue this procedure until you have inserted all the values in 
+the stack.</p><ol class="jsavcode jsavcenter" style="display: block; width: 40px;"></ol>
+    <p class="jsavexercisecontrols" align="center"><input type="button" name="undo" value="Undo"><input type="button" name="reset" value="Reset"><input type="button" name="answer" value="Model Answer"><input type="button" name="grade" value="Grade"><span class="actionIndicator" style="top: -2px; left: 621px;"></span></p>
+    <div class="scoll-wrapper">
+      <div class="jsavcanvas" style="min-height: 450px; min-width: 913px;">
+        <div id="stackcontainer" style="min-height: 113px;"><div class="jsavstack jsavautoresize" data-visible="true" data-xtransition="10" data-ytransition="-5" data-autoresize="true" data-center="true" id="jsav-47e23fd8748049fa821f36d9b0b116c5" style="width: 217px; height: 113px; left: 348px;"><div class="jsavnode jsavstacknode" id="jsav-924274dd0e554866b06003a680f8b61e" data-value="74" data-value-type="number" style="z-index: 18; left: 0px; top: 15px;"><span class="jsavvalue"><span class="jsavvaluelabel">74</span></span></div><div class="jsavnode jsavstacknode" id="jsav-c5c06648b0b04b2a98a8d6299a75a5d8" data-value="82" data-value-type="number" style="z-index: 17; left: 10px; top: 10px;"><span class="jsavvalue"><span class="jsavvaluelabel">82</span></span></div><div class="jsavnode jsavstacknode" id="jsav-2a9a7addb95141208c542dad0d4ce5eb" data-value="76" data-value-type="number" style="z-index: 16; left: 20px; top: 6px;"><span class="jsavvalue"><span class="jsavvaluelabel">76</span></span></div><div class="jsavnode jsavstacknode" id="jsav-37ebf96e131f471e84af71ed12b1640a" data-value="38" data-value-type="number" style="z-index: 15; left: 30px; top: 3px;"><span class="jsavvalue"><span class="jsavvaluelabel">38</span></span></div><div class="jsavnode jsavstacknode" id="jsav-bc8633be079343f3bbf550326ae6d95d" data-value="13" data-value-type="number" style="z-index: 14; left: 40px; top: 1px;"><span class="jsavvalue"><span class="jsavvaluelabel">13</span></span></div><div class="jsavnode jsavstacknode" id="jsav-bf14b03e8be645bb8f4f6688a97f5697" data-value="84" data-value-type="number" style="z-index: 13; left: 50px; top: 0px;"><span class="jsavvalue"><span class="jsavvaluelabel">84</span></span></div><div class="jsavnode jsavstacknode" id="jsav-6da0f041957546f19dd22f21bbf57ce9" data-value="14" data-value-type="number" style="z-index: 12; left: 60px; top: 0px;"><span class="jsavvalue"><span class="jsavvaluelabel">14</span></span></div><div class="jsavnode jsavstacknode" id="jsav-b0b12b5bc18548e280ae283c363daeee" data-value="56" data-value-type="number" style="z-index: 11; left: 70px; top: 1px;"><span class="jsavvalue"><span class="jsavvaluelabel">56</span></span></div><div class="jsavnode jsavstacknode" id="jsav-928d78ed3ee643c88a8e914e22edc70f" data-value="12" data-value-type="number" style="z-index: 10; left: 80px; top: 3px;"><span class="jsavvalue"><span class="jsavvaluelabel">12</span></span></div><div class="jsavnode jsavstacknode" id="jsav-bb9656c25103475f9f4e9d79eca4829e" data-value="49" data-value-type="number" style="z-index: 9; left: 90px; top: 6px;"><span class="jsavvalue"><span class="jsavvaluelabel">49</span></span></div><div class="jsavnode jsavstacknode" id="jsav-cabdf3e4fe53469083fb8e1c5411cbcf" data-value="62" data-value-type="number" style="z-index: 8; left: 100px; top: 10px;"><span class="jsavvalue"><span class="jsavvaluelabel">62</span></span></div><div class="jsavnode jsavstacknode" id="jsav-2252f0fa9ab54b8eba3356c96295cc74" data-value="87" data-value-type="number" style="z-index: 7; left: 110px; top: 15px;"><span class="jsavvalue"><span class="jsavvaluelabel">87</span></span></div><div class="jsavnode jsavstacknode" id="jsav-960634389ff047f09d40aaaf9f9c2efc" data-value="96" data-value-type="number" style="z-index: 6; left: 120px; top: 21px;"><span class="jsavvalue"><span class="jsavvaluelabel">96</span></span></div><div class="jsavnode jsavstacknode" id="jsav-e761a4c1a2264a9aa9ecde55826b0a16" data-value="83" data-value-type="number" style="z-index: 5; left: 130px; top: 28px;"><span class="jsavvalue"><span class="jsavvaluelabel">83</span></span></div><div class="jsavnode jsavstacknode" id="jsav-e6fce8f7243f43328b65587dc2751b50" data-value="80" data-value-type="number" style="z-index: 4; left: 140px; top: 36px;"><span class="jsavvalue"><span class="jsavvaluelabel">80</span></span></div><div class="jsavnode jsavstacknode" id="jsav-776e4a2faf284aba8acecef30c1e7d5e" data-value="19" data-value-type="number" style="z-index: 3; left: 150px; top: 45px;"><span class="jsavvalue"><span class="jsavvaluelabel">19</span></span></div><div class="jsavnode jsavstacknode" id="jsav-14cb13c5e8c14c3c9c77136b4d8df51c" data-value="53" data-value-type="number" style="z-index: 2; left: 160px; top: 55px;"><span class="jsavvalue"><span class="jsavvaluelabel">53</span></span></div><div class="jsavnode jsavstacknode" id="jsav-56bdfd0135bd4596960ecc4e12b1170e" data-value="58" data-value-type="number" style="z-index: 1; left: 170px; top: 66px;"><span class="jsavvalue"><span class="jsavvaluelabel">58</span></span></div></div></div>
+      <div class="jsavtree jsavcommontree jsavarraytree jsavautoresize" data-nodegap="20" data-nodesize="3" data-visible="true" data-autoresize="true" id="jsav-9c74bb37f75d4b1a8be636f870ab1dc0" data-root="jsav-a52972dd761b4897abf5a8b1dd024225" style="width: 118px; height: 34px; left: 397.5px;"><div class="jsavnode jsavtreenode jsavarraytreenode" id="jsav-a52972dd761b4897abf5a8b1dd024225" style="left: 0px; top: 0px;" data-child-role="root"><ol class="jsavautoresize jsavcenter jsavarray jsavhorizontalarray" data-visible="true" data-autoresize="true" data-center="true" data-layout="array" data-template="&lt;span class=&quot;jsavvalue&quot;&gt;&lt;span class=&quot;jsavvaluelabel&quot;&gt;{{value}}&lt;/span&gt;&lt;/span&gt;" style="height: 32px;"><li class="jsavnode jsavindex"><span class="jsavvalue"><span class="jsavvaluelabel"></span></span></li><li class="jsavnode jsavindex"><span class="jsavvalue"><span class="jsavvaluelabel"></span></span></li><li class="jsavnode jsavindex"><span class="jsavvalue"><span class="jsavvaluelabel"></span></span></li></ol></div></div></div>
+    </div>
+  <div class="jsavshutter"></div></div>
+
+  <script src="jquery.min.js"></script>
+<script src="jquery.migrate.min.js"></script>
+  <script src="jquery.ui.min.js"></script>
+<script src="timeme-min.js"></script>
+  <script src="jquery.transit.js"></script>
+  <script src="raphael.js"></script>
+  <script src="JSAV-min.js"></script>
+  <script src="odsaUtils-min.js"></script>
+  <script src="bPlusTreeInsertPRO_data/odsaAV-min.js"></script>
+  <script src="bPlusTreeInsertPRO_data/stack.js"></script>
+  <script src="bPlusTreeInsertPRO_data/ArrayTree.js"></script>
+  <script src="bPlusTreeInsertPRO_data/bPlusTreeInsertPRO.js"></script>
+
+
+</body></html>
