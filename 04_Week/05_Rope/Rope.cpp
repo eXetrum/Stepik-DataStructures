@@ -432,13 +432,8 @@ private:
 		return node->s[i];
 	}
 public:
-    /*Rope(const string& s)
-        : root(nullptr) { root = build_tree(s); }*/
-
-	Rope(const char* s)
-		: root(nullptr) {
-		root = build_tree(s);
-	}
+    Rope(const string& s) 
+        : root(nullptr) { root = build_tree(s); }
 
     ~Rope() { clear(); }
     
