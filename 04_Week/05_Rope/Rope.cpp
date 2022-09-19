@@ -1,37 +1,47 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <functional>
 #include <algorithm>
-#include <iomanip>
+
 using namespace std;
 
 #include <vld\vld.h>
 
+
+template <class T>
 class Rope {
 private:
-	struct node_t {
-		string s;
-		size_t w;
+	class node_t {
+		friend Rope;
+
+	protected:
+		T* data;
+		int w;
+		int h;
 		node_t* left;
 		node_t* right;
+		node_t* parent;
+	public:
+		inline void reset(node_t* left, node_t* right, node_t* parent=nullptr) {
+			if (data != nullptr) {
+				delete[] data;
+				data = nullptr;
+			}
+			w = (left != nullptr ? left->w : 0)
+				+ (right != nullptr ? right->w : 0);
 
-		inline node_t* reset(const string& s, size_t weight) {
-			this->s = s;
-			w = weight;
-			left = right = nullptr;
-			return this;
-		}
-
-		inline node_t* reset(node_t* left, node_t* right) {
-			s = string();
-			w = (left != nullptr ? left->w : 0) + (right != nullptr ? right->w : 0);
 			this->left = left;
 			this->right = right;
-			return this;
+			this->parent = parent;
 		}
 
-		node_t(const string& s, size_t weight) { reset(s, weight); }
-		node_t(node_t* left, node_t* right) { reset(left, right); }
+		explicit node_t(T* data, int len)
+			: data(data), w(len), left(nullptr), right(nullptr) { }
+
+		explicit node_t(node_t* left, node_t* right, node_t* parent=nullptr) : data(nullptr), w(0) { reset(left, right, parent); }
+
+		virtual ~node_t() { if (data != nullptr) delete[] data; }
 	};
 
 protected:
@@ -44,79 +54,209 @@ private:
 		delete node;
 	}
 
-	void in_order_traverse_helper(node_t* node, function<void(const string&)> f) {
+	void in_order_traverse_helper(node_t* node, function<void(const T*, size_t)> f) {
 		if (node == nullptr) return;
 		in_order_traverse_helper(node->left, f);
-		f(node->s);
+		f(node->data, node->w);
 		in_order_traverse_helper(node->right, f);
 	}
 
-	pair<node_t*, node_t*> split(node_t* node, int i) {
+	inline void small_rotation(node_t* v) {
+		node_t* parent = v->parent;
+		if (parent == nullptr) { return; }
+
+		node_t* grandparent = v->parent->parent;
+		if (parent->left == v) {
+			node_t* m = v->right;
+			v->right = parent;
+			parent->left = m;
+		}
+		else {
+			node_t* m = v->left;
+			v->left = parent;
+			parent->right = m;
+		}
+		update(parent);
+		update(v);
+		v->parent = grandparent;
+		if (grandparent != nullptr) {
+			if (grandparent->left == parent) {
+				grandparent->left = v;
+			}
+			else {
+				grandparent->right = v;
+			}
+		}
+	}
+
+	inline void big_rotation(node_t* v) {
+		if ((v->parent->left == v && v->parent->parent->left == v->parent)
+			|| (v->parent->right == v && v->parent->parent->right == v->parent)) {
+			// Zig-zig
+			small_rotation(v->parent);
+			small_rotation(v);
+		}
+		else {
+			// Zig-zag
+			small_rotation(v);
+			small_rotation(v);
+		}
+	}
+
+	inline void update(node_t* v) {
+		if (v == nullptr) return;
+		v->w = (v->data != nullptr ? v->w : 0)
+			+ (v->left != nullptr ? v->left->w : 0)
+			+ (v->right != nullptr ? v->right->w : 0);
+		if (v->left != nullptr) { v->left->parent = v; }
+		if (v->right != nullptr) { v->right->parent = v; }
+	}
+
+
+	inline node_t* splay(node_t* u) {
+		if (u == nullptr) return nullptr;
+		while (u->parent != nullptr) {
+			// No grand parent (we r close to root), do single rotation and stop
+			if (u->parent->parent == nullptr) {
+				small_rotation(u);
+				break;
+			}
+			// Keep pushing 'u' to the root
+			big_rotation(u);
+		}
+		return u;
+	}
+
+	inline node_t* merge(node_t* L, node_t* R) {
+
+		// No left subtree -> new root is right subtree
+		if (L == nullptr) return R;
+
+		// No right subtree -> new root is left subtree
+		if (R == nullptr) return L;
+
+		// Min in right subtree
+		while (R->left != nullptr) { R = R->left; }
+
+		// Move to the root and make assign left subtree as left child
+		R = splay(R);
+		R->left = L;
+
+		// Update sum values 
+		update(R);
+
+		return R;
+	}
+
+	inline static T* slice(const T* data, size_t start, size_t len) {
+		if (len == 0) return nullptr;
+		T* chunk = new T[len];
+		
+		memset(chunk, 0, sizeof(T) * len);
+		T* ptr = (T*)memcpy(chunk, &data[start], sizeof(T) * len);
+		return ptr;
+	}
+
+	inline void keep_parent(node_t* P, node_t* C) { if (C != nullptr) C->parent = P; }
+
+	pair<node_t*, node_t*> split(node_t* node, size_t i) {
 		node_t* tree1 = nullptr, * tree2 = nullptr;
 		if (node == nullptr) return make_pair(nullptr, nullptr);
 		if (node->left) {
 			if (node->left->w >= i) {
 				auto res = split(node->left, i);
 				tree1 = res.first;
+				//node->reset(res.second, node->right);
+				//tree2 = node;
+
 				tree2 = new node_t(res.second, node->right);
+				tree2->parent = nullptr;
+
 				//tree2 = node->reset(res.second, node->right);
-			}
-			else {
+			} else {
 				auto res = split(node->right, i - node->left->w);
 				tree1 = new node_t(node->left, res.first);
+				////node->reset(node->left, res.first);
+				////tree1 = node;
 				//tree1 = node->reset(node->left, res.first);
 				tree2 = res.second;
+
+				
 			}
-		}
-		else {
+		} else {
+			//substr(node->data, 0, i);
+			size_t w = node->w;
+			T* ptr = node->data;
+			
+			
+			tree1 = new node_t(slice(ptr, 0, i), i);
+			//tree2 = new node_t(node->s.substr(i, node->s.size()), node->s.size() - i);
+			if ((int)w - i >= 0) {
+				/*node->data = &node->data[i];
+				node->left = node->right = nullptr;
+				node->w = w - i;*/
+				tree2 = new node_t(slice(ptr, i, w - i), w - i);
+			}
 
-			tree1 = new node_t(node->s.substr(0, i), i);
-			tree2 = new node_t(node->s.substr(i, node->s.size()), node->s.size() - i);
-			//tree1 = node->reset(node->s.substr(0, i), i);
+			////node->w = i;
+			////tree1 = node;// new node_t(slice(ptr, 0, i), i);
+			
 		}
-
 		delete node;
+
+		if (tree1 != nullptr) {
+			keep_parent(tree1, tree1->left);
+			keep_parent(tree1, tree1->right);
+		}
+		if (tree2 != nullptr) {
+			keep_parent(tree2, tree2->left);
+			keep_parent(tree2, tree2->right);
+		}
+
 		return make_pair(tree1, tree2);
 	}
 
-	node_t* merge(node_t* L, node_t* R) {
+
+	/*node_t* merge(node_t* L, node_t* R) {
 		if (L == nullptr) return R;
 		if (R == nullptr) return L;
-		return new node_t(L, R);
-	}
 
-	node_t* insert(node_t* node, int insertIndex, const string& s) {
+
+		return new node_t(L, R);
+	}*/
+
+	node_t* insert(node_t* node, int insertIndex, const T* data, size_t len) {
 		auto it = split(node, insertIndex);
 		node_t* tree1 = it.first, * tree3 = it.second;
-		node_t* tree2 = new node_t(s, s.size());
+		node_t* tree2 = new node_t(data, len);
 		return merge(merge(tree1, tree2), tree3);
 	}
 
-	node_t* build_tree(const string& s) {
-		return new node_t(s, s.size());
+	node_t* build_tree(const T* data, size_t len) {
+		return new node_t(slice(data, 0, len), len);
 	}
 
-	char& get(node_t* node, int i) {
+	T& get(node_t* node, int i) { 
 		if (node->left != nullptr) {
 			if (node->left->w >= i) { return get(node->left, i); }
 			return get(node->right, i - node->left->w);
 		}
-		return node->s[i];
+		return node->data[i];
 	}
 public:
-	Rope(const string& s)
+	Rope(const T* data, size_t len)
 		: root(nullptr) {
-		root = build_tree(s);
+		root = build_tree(data, len);
 	}
 
 	~Rope() { clear(); }
 
 	void clear() { clear_helper(root); root = nullptr; }
-	void in_order_traverse(function<void(const string&)> func) { in_order_traverse_helper(root, func); }
-	char& operator[](size_t i) { return get(root, i); }
+	void in_order_traverse(function<void(const T*, size_t len)> func) { in_order_traverse_helper(root, func); }
+	T& operator[](size_t i) { return get(root, i); }
 
-	void insert(int insertIndex, const string& s) {
-		root = insert(root, insertIndex, s);
+	void insert(int insertIndex, const T* data, size_t len) {
+		root = insert(root, insertIndex, data, len);
 	}
 
 	void cut_and_insert(int i, int j, int k) {
@@ -128,22 +268,7 @@ public:
 			// R.second -> remaining part of the string
 			auto M = split(R.second, k);
 			root = merge(merge(M.first, R.first), M.second);
-			
-
 		} else {
-			/*auto R = split(root, j + 1);
-			root = R.first;
-
-			auto L = split(root, i);
-			root = L.first;
-
-			auto substr = L.second;
-			root = merge(root, R.second);
-
-
-
-			insert(k, substr->s);
-			clear_helper(substr);*/
 
 			//....i)[i+1......
 			auto L = split(root, i);
@@ -165,16 +290,22 @@ public:
 };
 
 
+
+
+
 int main() {
 	string S;
 	int q, i, j, k;
-	function<void(string)> f = [](const string& k) {
-		cout << k;
+	function<void(const char*, size_t)> f = [](const char* data, size_t len) {
+		if (data == nullptr) return;
+		for(size_t i = 0; i < len; ++i)
+			cout << data[i];
+		//cout << " => ";
 	};
 
 	cin >> S >> q;
 
-	Rope tree(S);
+	Rope<char> tree(S.c_str(), S.size());
 	tree.in_order_traverse(f);
 	while (q-- > 0) {
 		cin >> i >> j >> k;
@@ -184,183 +315,3 @@ int main() {
 	tree.in_order_traverse(f); cout << endl;
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////
-//#include <iostream>
-//#include <string>
-//
-//
-//template <class T>
-//class Rope {
-//public:
-//	explicit Rope(const std::string& s) {
-//		root_ = new Node();
-//		root_->s = new std::string(s);
-//		root_->w = root_->s->length();
-//	}
-//
-//	void insert(Rope* s, T pos) {
-//		if (pos == 0) {
-//			prepend(s);
-//		}
-//		else if (pos == root_->w) {
-//			append(s);
-//		}
-//		else {
-//			auto right = split(pos);
-//			append(s);
-//			append(right);
-//		}
-//	}
-//
-//	void prepend(Rope* b) {
-//		auto node = b->getRoot();
-//		std::swap(root_, node);
-//		append(node);
-//	}
-//
-//	void append(Rope* b) {
-//		append(b->getRoot());
-//	}
-//
-//	void print(std::ostream& out) {
-//		print(root_, out);
-//		out << std::endl;
-//	}
-//
-//	Rope* split(T i) {
-//		auto res = split(root_, i);
-//		root_ = res.first;
-//		return new Rope(res.second);
-//	}
-//
-//private:
-//	struct Node {
-//		Node* left = nullptr;
-//		Node* right = nullptr;
-//		T w = 0;
-//		std::string* s = nullptr;
-//	};
-//
-//	explicit Rope(Node* node) {
-//		root_ = node;
-//	}
-//
-//	Node* getRoot() {
-//		return root_;
-//	}
-//
-//	std::pair<Node*, Node*> split(Node* tree1, T i) {
-//		Node* tree2 = nullptr;
-//		if (tree1->s == nullptr) {
-//			if (tree1->left->w > i) {
-//				auto res = split(tree1->left, i);
-//				tree2 = new Node();
-//				tree2->left = res.second;
-//				tree2->right = tree1->right;
-//				tree2->w = tree2->left->w + tree2->right->w;
-//
-//				delete tree1;
-//				tree1 = res.first;
-//			}
-//			else {
-//				auto res = split(tree1->right, i - tree1->left->w);
-//				if (res.first->w == 0) {
-//					delete res.first;
-//					auto t = tree1->left;
-//					delete tree1;
-//					tree1 = t;
-//				}
-//				else {
-//					tree1->right = res.first;
-//					tree1->w = tree1->left->w + tree1->right->w;
-//				}
-//
-//				tree2 = res.second;
-//			}
-//		}
-//		else {
-//			tree2 = new Node();
-//			tree2->s = new std::string(tree1->s->substr(i));
-//			tree2->w = tree2->s->length();
-//
-//			tree1->s->resize(i);
-//			tree1->s->shrink_to_fit();
-//			tree1->w = tree1->s->length();
-//		}
-//
-//		return std::make_pair(tree1, tree2);
-//	}
-//
-//	void append(Node* b) {
-//		if (root_->w == 0) {
-//			delete root_;
-//			root_ = b;
-//		}
-//		else if (b->w > 0) {
-//			auto newNode = new Node();
-//			newNode->left = root_;
-//			newNode->right = b;
-//			newNode->w = newNode->left->w + newNode->right->w;
-//			root_ = newNode;
-//		}
-//	}
-//
-//	void print(Node* node, std::ostream& out) {
-//		if (node->s == nullptr) {
-//			print(node->left, out);
-//			print(node->right, out);
-//		}
-//		else {
-//			out << *node->s;
-//		}
-//	}
-//
-//	Node* root_;
-//};
-//
-//
-//int main() {
-//	auto s = std::string();
-//	std::getline(std::cin, s);
-//
-//	int q;
-//	std::cin >> q;
-//
-//	int i;
-//	int j;
-//	int k;
-//
-//	auto rope = Rope<int>(s);
-//	while (q--) {
-//		std::cin >> i >> j >> k;
-//
-//		auto right = rope.split(j + 1);
-//		auto substr = rope.split(i);
-//		rope.append(right);
-//		rope.insert(substr, k);
-//	}
-//
-//	rope.print(std::cout);
-//
-//	return 0;
-//}
