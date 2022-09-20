@@ -11,57 +11,38 @@ using namespace std;
 
 template <class T>
 class Rope {
-	const int MAX_DATA_LENGTH = 32;
 private:
 	class node_t {
 		friend Rope;
+
 		static int get_weight(node_t* left, node_t* right) {
-			return (left != nullptr ? left->w : 0)
-				+ (right != nullptr ? right->w : 0);
+			return (left != nullptr ? left->weight : 0)
+				+ (right != nullptr ? right->weight : 0);
 		}
 
 	protected:
-		T* data;
-		int w;
-		int h;
+		int offset;
+		int weight;
 		node_t* left;
 		node_t* right;
 	public:
 		inline void reset(node_t* left, node_t* right) {
-			if (data != nullptr) {
-				delete[] data;
-				data = nullptr;
-			}
 			this->left = left;
 			this->right = right;
-			w = get_weight(left, right);
+			weight = get_weight(left, right);
 		}
 
-		explicit node_t(T* data, int len, node_t* left=nullptr, node_t* right=nullptr)
-			: data(data), w(len), h(1), 
-			left(left), right(right) { }
+		explicit node_t(int offset, int weight)
+			: offset(offset), weight(weight),
+			left(nullptr), right(nullptr) { }
 
-		//explicit node_t(node_t* left, node_t* right) : data(nullptr), w(0) { reset(left, right); }
-
-		virtual ~node_t() { if (data != nullptr) delete[] data; }
+		explicit node_t(node_t* left, node_t* right) 
+			: offset(-1), weight(0) { reset(left, right); }
 	};
-
-	static inline T* slice(const T* data, int start, int len) {
-		cout << "len=" << len << endl;
-		if (len <= 0) return nullptr;
-		T* chunk = new T[len];
-		T* ptr = (T*)memcpy(chunk, &data[start], sizeof(T) * len);
-		return ptr;
-	}
-
-	static inline int get_weight(node_t* node) { return node != nullptr ? node->w : 0; }
-	static inline int get_height(node_t* node) { return node != nullptr ? node->h : 0; }
-	static inline int get_balance_factor(node_t* node) { return node != nullptr ? get_height(node->right) - get_height(node->left) : 0; }
-	static inline void update_height(node_t* node) { node->h = std::max(get_height(node->left), get_height(node->right)) + 1; }
-	static inline void update_weight(node_t* node) { node->w = get_weight(node->left) + get_weight(node->right); }
-	static inline void update(node_t* node) { update_height(node); update_weight(node); }
 protected:
 	node_t* root;
+	const T* m_data;
+	int m_size;
 private:
 	inline void clear_helper(node_t* node) {
 		if (node == nullptr) return;
@@ -70,164 +51,57 @@ private:
 		delete node;
 	}
 
-	inline void in_order_traverse_helper(node_t* node, function<void(const T*, size_t)> f) {
+	inline void in_order_traverse_helper(node_t* node, function<void(const T*, int, int)> f) {
 		if (node == nullptr) return;
 		in_order_traverse_helper(node->left, f);
-		f(node->data, node->w);
+		f(m_data, node->offset, node->weight);
 		in_order_traverse_helper(node->right, f);
 	}
 
-	static inline node_t* rotate_right(node_t* node) {
-		node_t* top_node = node->left;
-		if (top_node != nullptr) {
-			node->left = top_node->right;
-			top_node->right = node;
-			update(node);
-			update(top_node);
-			return top_node;
-		}
-		return node;
-	}
-	static inline node_t* rotate_left(node_t* node) {
-		node_t* top_node = node->right;
-		if (top_node != nullptr) {
-			node->right = top_node->left;
-			top_node->left = node;
-			update(node);
-			update(top_node);
-			return top_node;
-		}
-		return node;
-	}
-
-
-	static inline node_t* balance(node_t* node) {
-		if (node == nullptr) return nullptr;
-		update(node);
-		int factor = get_balance_factor(node);
-		while (abs(factor) > 1) {
-			if (factor > 1) {
-				if (get_balance_factor(node->right) < 0) { node->right = rotate_right(node->right); }
-				node = rotate_left(node);
-			} else if (factor < -1) {
-				if (get_balance_factor(node->left) > 0) { node->left = rotate_left(node->left); }
-				node = rotate_right(node);
-			}
-			factor = get_balance_factor(node);
-		}
-		return node;
-	}
-
-	static inline T find(node_t* node, int idx) {
-		if (node->left != nullptr) {
-			if (node->left->w < idx) {
-				return find(node->right, idx - node->left->w);
-			}
-			return find(node->left, idx);
-		}
-		return node->data[idx];
-	}
-
-	static inline node_t* merge(node_t* L, node_t* R) {
+	inline node_t* merge(node_t* L, node_t* R) {
 		if (L == nullptr) return R;
 		if (R == nullptr) return L;
 
-		//int w = get_weight(L) + get_weight(R);
-		//if(w <= MAX_DATA_LENGTH) 
-			//return new node_t(join_to_single(L, R))
-		return new node_t(nullptr, get_weight(L) + get_weight(R), L, R);
-	}
-
-	static inline pair<node_t*, node_t*> split(node_t* node, int idx) {
-		if (node == nullptr) return make_pair(nullptr, nullptr);
-		if (node->left != nullptr) {
-			if (node->left->w >= idx) {
-				auto res = split(node->left, idx);
-				auto R = node->right;
-				
-				delete node;
-				update(res.first);
-				update(res.second);
-				update(R);
-				auto Q = merge(res.second, R);
-				update(Q);
-				return make_pair(res.first, Q);
-			}
-			auto res = split(node->right, idx - node->left->w);
-			auto L = node->left;
-			
-			delete node;
-			update(res.first);
-			update(res.second);
-			update(L);
-			auto Q = merge(L, res.first);
-			update(Q);
-
-			return make_pair(Q, res.second);
-		}
-		
-		int w = node->w;
-		auto prefix  = slice(node->data, 0, idx);
-		auto postfix = slice(node->data, idx, w - idx);
-		
-		delete node;
-		node_t* L = nullptr, * R = nullptr;
-
-		if(prefix != nullptr) L = new node_t(prefix, idx);
-		if(postfix != nullptr) R = new node_t(postfix, w - idx);
-		return make_pair(L, R);
+		return new node_t(L, R);
 	}
 
 	
 
-	//pair<node_t*, node_t*> split(node_t* node, size_t i) {
-	//	node_t* tree1 = nullptr, * tree2 = nullptr;
-	//	if (node == nullptr) return make_pair(nullptr, nullptr);
-	//	if (node->left) {
-	//		if (node->left->w >= i) {
-	//			auto res = split(node->left, i);
-	//			tree1 = res.first;
-	//			//node->reset(res.second, node->right);
-	//			//tree2 = node;
+	pair<node_t*, node_t*> split(node_t* node, int i) {
+		node_t* tree1 = nullptr, * tree2 = nullptr;
+		if (node == nullptr) return make_pair(nullptr, nullptr);
+		if (node->left) {
+			if (node->left->weight >= i) {
+				auto res = split(node->left, i);
+				tree1 = res.first;
+				//node->reset(res.second, node->right);
+				//tree2 = node;
 
-	//			tree2 = new node_t(res.second, node->right);
-	//			tree2->parent = nullptr;
+				tree2 = new node_t(res.second, node->right);
 
-	//			//tree2 = node->reset(res.second, node->right);
-	//		} else {
-	//			auto res = split(node->right, i - node->left->w);
-	//			tree1 = new node_t(node->left, res.first);
-	//			////node->reset(node->left, res.first);
-	//			////tree1 = node;
-	//			//tree1 = node->reset(node->left, res.first);
-	//			tree2 = res.second;
-
-	//			
-	//		}
-	//	} else {
-	//		//substr(node->data, 0, i);
-	//		size_t w = node->w;
-	//		T* ptr = node->data;
-	//		
-	//		
-	//		tree1 = new node_t(slice(ptr, 0, i), i);
-	//		//tree2 = new node_t(node->s.substr(i, node->s.size()), node->s.size() - i);
-	//		if ((int)w - i >= 0) {
-	//			/*node->data = &node->data[i];
-	//			node->left = node->right = nullptr;
-	//			node->w = w - i;*/
-	//			tree2 = new node_t(slice(ptr, i, w - i), w - i);
-	//		}
-
-	//		////node->w = i;
-	//		////tree1 = node;// new node_t(slice(ptr, 0, i), i);
-	//		
-	//	}
-	//	delete node;
+				//tree2 = node->reset(res.second, node->right);
+			} else {
+				auto res = split(node->right, i - node->left->weight);
+				tree1 = new node_t(node->left, res.first);
+				////node->reset(node->left, res.first);
+				////tree1 = node;
+				//tree1 = node->reset(node->left, res.first);
+				tree2 = res.second;
+			}
+		} else {
+			//substr(node->data, 0, i);
+			size_t w = node->weight;
+			tree1 = new node_t(node->offset, i);			
+			if ((int)w - i >= 0) {
+				tree2 = new node_t(node->offset + i, w - i);
+			}
+			
+		}
+		delete node;
 
 
-	//	return make_pair(tree1, tree2);
-	//}
+		return make_pair(tree1, tree2);
+	}
 
 
 	/*node_t* merge(node_t* L, node_t* R) {
@@ -238,44 +112,41 @@ private:
 		return new node_t(L, R);
 	}*/
 
-	node_t* insert(node_t* node, int idx, node_t* insertant) {
-		if (idx == 0)
-			return merge(insertant, node);
-		if (idx >= node->w)
-			return merge(node, insertant);
+	//node_t* insert(node_t* node, int idx, node_t* insertant) {
+	//	if (idx == 0)
+	//		return merge(insertant, node);
+	//	if (idx >= node->w)
+	//		return merge(node, insertant);
 
-		auto res = split(node, idx);
-		auto prefix = res.first;
-		auto postfix = res.second;
+	//	auto res = split(node, idx);
+	//	auto prefix = res.first;
+	//	auto postfix = res.second;
 
-		return merge(merge(prefix, insertant), postfix);
-		//auto it = split(node, insertIndex);
-		//node_t* tree1 = it.first, * tree3 = it.second;
-		//node_t* tree2 = new node_t(data, len);
-		//return merge(merge(tree1, tree2), tree3);
-	}
-
-	node_t* build_tree(const T* data, size_t len) {
-		return new node_t(slice(data, 0, len), len);
-	}
+	//	return merge(merge(prefix, insertant), postfix);
+	//	//auto it = split(node, insertIndex);
+	//	//node_t* tree1 = it.first, * tree3 = it.second;
+	//	//node_t* tree2 = new node_t(data, len);
+	//	//return merge(merge(tree1, tree2), tree3);
+	//}
 
 	T& get(node_t* node, int i) { 
 		if (node->left != nullptr) {
 			if (node->left->w >= i) { return get(node->left, i); }
 			return get(node->right, i - node->left->w);
 		}
-		return node->data[i];
+		return m_data[node->offset + i];
 	}
 public:
-	Rope(const T* data, size_t len)
-		: root(nullptr) {
-		root = build_tree(data, len);
+	Rope(const T* data, int len)
+		: root(nullptr), m_data(data), m_size(len) {
+		
+		root = new node_t(0, len);
 	}
 
 	~Rope() { clear(); }
 
 	void clear() { clear_helper(root); root = nullptr; }
-	void in_order_traverse(function<void(const T*, size_t len)> func) { in_order_traverse_helper(root, func); }
+	void in_order_traverse(function<void(const T*, int, int)> func) { in_order_traverse_helper(root, func); }
 	T& operator[](size_t i) { return get(root, i); }
 
 	/*void insert(int idx, const T* data, size_t len) {
@@ -331,10 +202,11 @@ public:
 int main() {
 	string S;
 	int q, i, j, k;
-	function<void(const char*, size_t)> f = [](const char* data, size_t len) {
-		if (data == nullptr) return;
-		for(size_t i = 0; i < len; ++i)
-			cout << data[i];
+	function<void(const char*, int, int)> f = [](const char* data, int offset, int len) {
+		if (data == nullptr || offset == -1) return;
+		const char* ptr = &data[offset];
+		for (size_t i = 0; i < len; ++i)
+			cout << ptr[i];
 		//cout << " => ";
 	};
 
@@ -344,7 +216,7 @@ int main() {
 	tree.in_order_traverse(f);
 	while (q-- > 0) {
 		cin >> i >> j >> k;
-		tree.cut_and_insert2(i, j, k);
+		tree.cut_and_insert(i, j, k);
 		tree.in_order_traverse(f); cout << endl;
 	}
 	tree.in_order_traverse(f); cout << endl;
